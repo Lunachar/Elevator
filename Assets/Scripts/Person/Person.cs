@@ -8,11 +8,11 @@ namespace Elevator
 {
     public class Person
     {
-        public string Name { get; set; }
+        private string Name { get; set; }
         private string LastName { get; set; }
         private int Age { get; set; }
-        private int CurrentFloor { get; set; }
-        private int TargetFloor { get; set; }
+        internal int CurrentFloor { get; set; }
+        internal int TargetFloor { get; set; }
 
         public Person(int currentFloor, int floorsAmount)
         {
@@ -31,13 +31,17 @@ namespace Elevator
 
 
            CurrentFloor = currentFloor;
-
+           
            var targetFloor = new RandomizerNumber<int>(new FieldOptionsInteger()
            {
                Min = 1,
                Max = floorsAmount
            });
            TargetFloor = targetFloor.Generate().GetValueOrDefault();
+           if (TargetFloor == CurrentFloor)
+           {
+               TargetFloor = targetFloor.Generate().GetValueOrDefault();
+           }
         }
 
         public override string ToString()

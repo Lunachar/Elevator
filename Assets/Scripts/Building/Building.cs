@@ -6,13 +6,13 @@ namespace Elevator
 {
     public class Building
     {
-        public List<Floor> Floors { get; set; }
-        public Elevator Elevator { get; set; }
+        internal List<Floor> Floors { get; set; }
+        private Elevator Elevator { get; set; }
+        private int _maxPeoplePerFloor { get; set; }
 
-        
-
-        public Building(int numberOfFloors, int elevatorCapacity)
+        public Building(int numberOfFloors, int elevatorCapacity, int maxPeoplePerFloor)
         {
+            _maxPeoplePerFloor = maxPeoplePerFloor;
             Floors = GenerateFloors(numberOfFloors);
             Elevator = new Elevator(elevatorCapacity);
         }
@@ -22,8 +22,7 @@ namespace Elevator
             List<Floor> floors = new List<Floor>();
             for (int i = 1; i <= numberOfFloors; i++)
             {
-               //int munberOfPeople = new RandomIntegerGenerator().GenerateValue(0, 15);
-               //floors.Add(new Floor(i, munberOfPeople));
+               floors.Add(new Floor(i, numberOfFloors, _maxPeoplePerFloor));
             }
 
             return floors;
@@ -38,5 +37,8 @@ namespace Elevator
         {
             
         }
+       
+
     }
+    
 }

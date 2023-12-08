@@ -152,6 +152,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d611cb1330c42e3bba69dfd134cef5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NumberOfFloors: 5
+  ElevatorCapacity: 5
+  MaxPeoplePerFloor: 3
 --- !u!4 &453129704
 Transform:
   m_ObjectHideFlags: 0

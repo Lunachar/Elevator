@@ -7,14 +7,27 @@ namespace Elevator
     public class Boot : MonoBehaviour
     {
         public Building Building;
+        public int NumberOfFloors;
+        public int ElevatorCapacity;
+        public int MaxPeoplePerFloor;
 
         private void Start()
         {
-            Person person1 = new Person(1, 15);
-            Person person2 = new Person(2, 15);
-            
-            Debug.Log(person1);
-            Debug.Log(person2);
+            Building = new Building(NumberOfFloors, ElevatorCapacity, MaxPeoplePerFloor);
+            ShowFloorDetails();
+        }
+
+        private void ShowFloorDetails()
+        {
+            foreach (var floor in Building.Floors)
+            {
+                Debug.Log($"Floor {floor.Number}, peoples {floor.GetPersonsList().Count}: ");
+
+                foreach (var person in floor.GetPersonsList())
+                {
+                    Debug.Log(person.ToString());
+                }
+            }
         }
     }
 }

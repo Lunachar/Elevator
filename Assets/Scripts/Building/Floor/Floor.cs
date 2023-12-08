@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using RandomDataGenerator;
-
+using RandomDataGenerator.FieldOptions;
+using RandomDataGenerator.Randomizers;
 
 
 namespace Elevator
@@ -8,24 +9,42 @@ namespace Elevator
     public class Floor
     {
         public int Number { get; set; }
-        public List<Person> People { get; set; }
+        public int FloorsAmount { get; set; }
+        //public People People { get; set; }
+        private List<Person> _personList;
 
-        public Floor(int floorNumber, int numberOfPeople)
+        public Floor(int floorNumber, int floorsAmount, int maxPeoplePerFloor)
         {
             Number = floorNumber;
-            People = GeneratePeople(numberOfPeople);
+            FloorsAmount = floorsAmount;
+            _personList = GeneratePeople(maxPeoplePerFloor);
+            /*_personList = People.GetPersonsList();*/
         }
-        
-        private List<Person> GeneratePeople(int numberOfPeople)
+
+        private List<Person> GeneratePeople(int maxPeoplePerFloor)
         {
-            var people = new List<Person>();
+            var generatedPeople = new List<Person>();
+            //var numberOfPeople = maxPeoplePerFloor;
+            var numberOfPeople = new RandomizerNumber<int>(new FieldOptionsInteger()
+            {
+                Min = 0,
+                Max = maxPeoplePerFloor
+            }).Generate().GetValueOrDefault();
             for (int i = 0; i < numberOfPeople; i++)
             {
-                //people.Add(new Person(Number));
+                generatedPeople.Add(new Person(Number, FloorsAmount));
             }
-
-            return people;
+            return generatedPeople;
         }
 
+        public List<Person> GetPersonsList()
+        {
+            return _personList;
+        }
+
+        // public override string ToString()
+        // {
+        //     return $"Floor number: {Number}, number of people: {_personList.Count}";
+        // }
     }
 }
