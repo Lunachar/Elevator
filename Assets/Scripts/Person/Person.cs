@@ -8,11 +8,12 @@ namespace Elevator
 {
     public class Person
     {
-        private string Name { get; set; }
-        private string LastName { get; set; }
-        private int Age { get; set; }
+        internal string Name { get; set; }
+        internal string LastName { get; set; }
+        internal int Age { get; set; }
         internal int CurrentFloor { get; set; }
         internal int TargetFloor { get; set; }
+        internal bool Completed { get; set; }
 
         public Person(int currentFloor, int floorsAmount)
         {

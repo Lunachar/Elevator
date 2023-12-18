@@ -2,23 +2,25 @@
 using RandomDataGenerator;
 using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
+using Zenject;
 
 
 namespace Elevator
 {
     public class Floor
     {
-        public int Number { get; set; }
-        public int FloorsAmount { get; set; }
-        //public People People { get; set; }
+        public int Number { get; }
+        public int TotalFloors { get; }
+        
         private List<Person> _personList;
+        [Inject] private DB_Setup _dbSetup;
 
-        public Floor(int floorNumber, int floorsAmount, int maxPeoplePerFloor)
+        public Floor(int floorNumber, int totalFloors, int maxPeoplePerFloor)
         {
             Number = floorNumber;
-            FloorsAmount = floorsAmount;
+            TotalFloors = totalFloors;
             _personList = GeneratePeople(maxPeoplePerFloor);
-            /*_personList = People.GetPersonsList();*/
+            SavePeopleToDB();
         }
 
         private List<Person> GeneratePeople(int maxPeoplePerFloor)
@@ -32,9 +34,17 @@ namespace Elevator
             }).Generate().GetValueOrDefault();
             for (int i = 0; i < numberOfPeople; i++)
             {
-                generatedPeople.Add(new Person(Number, FloorsAmount));
+                generatedPeople.Add(new Person(Number, TotalFloors));
             }
             return generatedPeople;
+        }
+
+        private void SavePeopleToDB()
+        {
+            foreach (var person in _personList)
+            {
+                _dbSetup.InsertPersonData(person);
+            }
         }
 
         public List<Person> GetPersonsList()

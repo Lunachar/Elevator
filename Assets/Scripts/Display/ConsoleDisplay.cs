@@ -1,14 +1,42 @@
 ﻿using System;
 using Elevator.Interfaces;
+using UnityEngine;
+using Zenject;
 
 namespace Elevator.Display
 {
-    public class ConsoleDisplay : IObserver
+    public class ConsoleDisplay /*: MonoBehaviour, IObserver*/
     {
-        public Person Person;
-        public void Update(Elevator elevator)
+        private Building _building;
+
+        public void SetBuilding(Building building)
         {
-            
+            _building = building;
+        }
+
+        public void ShowFloorDetails()
+        {
+            if (_building != null)
+            {
+                foreach (var floor in _building._floors)
+                {
+                    Debug.Log($"Floor {floor.Number}, peoples {floor.GetPersonsList().Count}: ");
+
+                    foreach (var person in floor.GetPersonsList())
+                    {
+                        Debug.Log(person.ToString());
+                    }
+                }
+            }
+        }
+        private void Start()
+        {
+
+        }
+
+        public void Update()
+        {
+
         }
     }
 }
