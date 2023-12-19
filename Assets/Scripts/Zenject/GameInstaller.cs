@@ -11,13 +11,17 @@ namespace Elevator
         {
             Debug.Log("1: in GameInstaller");
             Container.Bind<Boot>().AsSingle();
-            //Container.Bind<Building>().AsSingle();
+            Container.BindFactory<int, int, int, Floor, FloorFactory>();
             Container.Bind<DB_Setup>().AsSingle();
-            //Container.Bind<Person>().AsSingle();
+            Container.Bind<Floor>().AsSingle();
+           
             Container.Bind<ConsoleDisplay>().AsSingle();
             Container.Bind<IElevator>()
                 .To<Elevator>()
                 .AsSingle();
+            
+            //Container.Bind<Building>().AsSingle();
+            //Container.Bind<Person>().AsSingle();
         }
 
     }

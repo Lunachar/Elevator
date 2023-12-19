@@ -11,7 +11,7 @@ public class DB_Setup
     [Inject]
     public void Construct()
     {
-        
+        CreateDB();
     }
     
     public void CreateDB()
@@ -38,7 +38,7 @@ public class DB_Setup
 
     public void InsertPersonData(Person person)
     {
-        using (var connection = new SqliteConnection("URI=file:" + dbName))
+        using (var connection = new SqliteConnection(dbName))
         {
             connection.Open();
             using (var command = connection.CreateCommand())
@@ -53,7 +53,10 @@ public class DB_Setup
                 command.Parameters.AddWithValue("@currentFloor", person.CurrentFloor);
                 command.Parameters.AddWithValue("@targetFloor", person.TargetFloor);
                 command.Parameters.AddWithValue("@completed", false);
+
+                command.ExecuteNonQuery();
             }
+            connection.Close();
         }
     }
 }

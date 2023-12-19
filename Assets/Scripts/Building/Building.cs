@@ -13,21 +13,21 @@ namespace Elevator
         private IElevator _elevator { get; set; }
         private int _maxPeoplePerFloor { get; set; }
 
-        public Building(int numberOfFloors, IElevator elevator, int elevatorCapacity, int maxPeoplePerFloor)
+        public Building(int numberOfFloors, IElevator elevator, int elevatorCapacity, int maxPeoplePerFloor, FloorFactory floorFactory)
         {
-            Debug.Log("2: in Building construst");
+            Debug.Log("2: in Building construct");
             _maxPeoplePerFloor = maxPeoplePerFloor;
-            _floors = GenerateFloors(numberOfFloors);
+            _floors = GenerateFloors(numberOfFloors, floorFactory);
             _elevator = elevator;
             _elevator.SetCapacity(elevatorCapacity);
         }
 
-        private List<Floor> GenerateFloors(int numberOfFloors)
+        private List<Floor> GenerateFloors(int numberOfFloors, FloorFactory floorFactory)
         {
             List<Floor> floors = new List<Floor>();
             for (int i = 1; i <= numberOfFloors; i++)
             {
-               floors.Add(new Floor(i, numberOfFloors, _maxPeoplePerFloor));
+                floors.Add(floorFactory.Create(i, numberOfFloors, _maxPeoplePerFloor));
             }
 
             return floors;

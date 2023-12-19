@@ -13,20 +13,20 @@ namespace Elevator
         public int TotalFloors { get; }
         
         private List<Person> _personList;
-        [Inject] private DB_Setup _dbSetup;
+        private DB_Setup _dbSetup;
 
-        public Floor(int floorNumber, int totalFloors, int maxPeoplePerFloor)
+        public Floor(int floorNumber, int totalFloors, int maxPeoplePerFloor, DB_Setup dbSetup)
         {
             Number = floorNumber;
             TotalFloors = totalFloors;
             _personList = GeneratePeople(maxPeoplePerFloor);
+            _dbSetup = dbSetup;
             SavePeopleToDB();
         }
 
         private List<Person> GeneratePeople(int maxPeoplePerFloor)
         {
             var generatedPeople = new List<Person>();
-            //var numberOfPeople = maxPeoplePerFloor;
             var numberOfPeople = new RandomizerNumber<int>(new FieldOptionsInteger()
             {
                 Min = 0,
