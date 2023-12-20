@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Elevator.Managers;
 using RandomDataGenerator;
 using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
@@ -9,44 +10,33 @@ namespace Elevator
 {
     public class Floor
     {
+        private readonly PersonGenerator _personGenerator;
         public int Number { get; }
         public int TotalFloors { get; }
         
         private List<Person> _personList;
-        private DB_Setup _dbSetup;
+        //private DB_Setup _dbSetup;
 
-        public Floor(int floorNumber, int totalFloors, int maxPeoplePerFloor, DB_Setup dbSetup)
+        public Floor(int floorNumber, int totalFloors, int maxPeoplePerFloor, PersonGenerator personGenerator, DatabaseManager databaseManager)
         {
             Number = floorNumber;
             TotalFloors = totalFloors;
-            _personList = GeneratePeople(maxPeoplePerFloor);
-            _dbSetup = dbSetup;
-            SavePeopleToDB();
+            _personGenerator = personGenerator;
+            _personList = _personGenerator.GeneratePeople(maxPeoplePerFloor, floorNumber, totalFloors);
+            //_dbSetup = dbSetup;
+            databaseManager?.SavePeopleToDB(_personList);
         }
 
-        private List<Person> GeneratePeople(int maxPeoplePerFloor)
+        // private List<Person> GeneratePeople(int maxPeoplePerFloor)
+        // {
+        //     return _personGenerator.GeneratePeople(maxPeoplePerFloor, Number, TotalFloors);
+        // }
+
+
+        public void SetPersonsList(List<Person> personsList)
         {
-            var generatedPeople = new List<Person>();
-            var numberOfPeople = new RandomizerNumber<int>(new FieldOptionsInteger()
-            {
-                Min = 0,
-                Max = maxPeoplePerFloor
-            }).Generate().GetValueOrDefault();
-            for (int i = 0; i < numberOfPeople; i++)
-            {
-                generatedPeople.Add(new Person(Number, TotalFloors));
-            }
-            return generatedPeople;
+            _personList = personsList;
         }
-
-        private void SavePeopleToDB()
-        {
-            foreach (var person in _personList)
-            {
-                _dbSetup.InsertPersonData(person);
-            }
-        }
-
         public List<Person> GetPersonsList()
         {
             return _personList;

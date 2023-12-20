@@ -18,6 +18,7 @@ namespace Elevator
             Debug.Log("2: in Building construct");
             _maxPeoplePerFloor = maxPeoplePerFloor;
             _floors = GenerateFloors(numberOfFloors, floorFactory);
+            Debug.Log("here1");
             _elevator = elevator;
             _elevator.SetCapacity(elevatorCapacity);
         }
@@ -25,6 +26,7 @@ namespace Elevator
         private List<Floor> GenerateFloors(int numberOfFloors, FloorFactory floorFactory)
         {
             List<Floor> floors = new List<Floor>();
+            Debug.Log("here2");
             for (int i = 1; i <= numberOfFloors; i++)
             {
                 floors.Add(floorFactory.Create(i, numberOfFloors, _maxPeoplePerFloor));

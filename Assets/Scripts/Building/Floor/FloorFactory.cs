@@ -1,21 +1,30 @@
+using Elevator.Managers;
+using UnityEngine;
 using Zenject;
 
 namespace Elevator
 {
     public class FloorFactory : PlaceholderFactory<int, int, int, Floor>
     {
-        private readonly DiContainer _container;
+        private readonly PersonGenerator _personGenerator;
+        private readonly DB_Setup _dbSetup;
+        private readonly DatabaseManager _databaseManager;
 
-        public FloorFactory(DiContainer container)
+        public FloorFactory(PersonGenerator personGenerator, DB_Setup dbSetup)
         {
-            _container = container;
+            Debug.Log($"FloorFactory Constructor");
+            _personGenerator = personGenerator;
+            _dbSetup = dbSetup;
         }
 
-        public override Floor Create(int floorNumber, int totalFloors, int maxPeoplePerFloor)
+        public Floor Create(int floorNumber, int totalFloors, int maxPeoplePerFloor)
         {
-            var dbSetup = _container.Resolve<DB_Setup>();
-            return new Floor(floorNumber, totalFloors, maxPeoplePerFloor, dbSetup);
+            var peopleList = _personGenerator.GeneratePeople(maxPeoplePerFloor, floorNumber, totalFloors);
+            Debug.Log("here3");
+            var floor = new Floor(floorNumber, totalFloors, maxPeoplePerFloor, _personGenerator, _databaseManager);
+            Debug.Log("here4");
+            floor.SetPersonsList(peopleList);
+            return floor;
         }
-
     }
 }
