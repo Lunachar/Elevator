@@ -14,15 +14,15 @@ namespace Elevator.Display
             _building = building;
         }
 
-        public void ShowFloorDetails()
+        public void ShowFloorDetailsInConsole()
         {
             if (_building != null)
             {
                 foreach (var floor in _building._floors)
                 {
-                    Debug.Log($"Floor {floor.Number}, peoples {floor.GetPersonsList().Count}: ");
+                    Debug.Log($"Floor {floor.Number}, peoples {floor.GetPersonsListOnFloor().Count}: ");
 
-                    foreach (var person in floor.GetPersonsList())
+                    foreach (var person in floor.GetPersonsListOnFloor())
                     {
                         Debug.Log(person.ToString());
                     }

@@ -17,13 +17,13 @@ namespace Elevator
             _dbSetup = dbSetup;
         }
 
-        public Floor Create(int floorNumber, int totalFloors, int maxPeoplePerFloor)
+        public override Floor Create(int floorNumber, int totalFloors, int maxPeoplePerFloor)
         {
             var peopleList = _personGenerator.GeneratePeople(maxPeoplePerFloor, floorNumber, totalFloors);
             Debug.Log("here3");
             var floor = new Floor(floorNumber, totalFloors, maxPeoplePerFloor, _personGenerator, _databaseManager);
             Debug.Log("here4");
-            floor.SetPersonsList(peopleList);
+            floor.SetPersonsListOnFloor(peopleList);
             return floor;
         }
     }
