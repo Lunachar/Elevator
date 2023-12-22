@@ -1,22 +1,27 @@
+using System.IO;
 using Elevator;
 using Mono.Data.Sqlite;
 using Unity.VisualScripting.Dependencies.Sqlite;
+using UnityEngine;
 using Zenject;
 
 public class DB_Setup
 {
-    private string dbName = "URI=file:Elevator.db";
+    internal string currDbName = "Elevator_curr.db";
+    internal string prevDbName = "Elevator_prev.db";
     private Person _person;
 
-    [Inject]
-    public void Construct()
-    {
-        CreateDB();
-    }
+    // [Inject]
+    // public void Construct()
+    // {
+    //     CreateDB(currDbName)
+    // }
+
+
     
-    public void CreateDB()
+    public void CreateDB(string dbName)
     {
-        using (var connection = new SqliteConnection(dbName))
+        using (var connection = new SqliteConnection($"URI=file:{dbName}"))
         {
             connection.Open();
             using (var command = connection.CreateCommand())
@@ -38,7 +43,8 @@ public class DB_Setup
 
     public void InsertPersonData(Person person)
     {
-        using (var connection = new SqliteConnection(dbName))
+        //RotateDatabase();
+        using (var connection = new SqliteConnection($"URI=file:{currDbName}"))
         {
             connection.Open();
             using (var command = connection.CreateCommand())

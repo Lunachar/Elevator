@@ -33,6 +33,7 @@ namespace Elevator
             if (_building != null && _consoleDisplay != null)
             {
                 ShowFloorDetails();
+                RotateDatabase();
                 SavePersonsToDB();
             }
             else
@@ -52,6 +53,11 @@ namespace Elevator
             {
                 _databaseManager.SavePeopleToDB(floor.GetPersonsListOnFloor());
             }
+        }
+
+        private void RotateDatabase()
+        {
+            _databaseManager.RotateDatabase();
         }
     }
 }

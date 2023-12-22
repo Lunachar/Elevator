@@ -39,7 +39,7 @@ namespace Elevator
                Max = floorsAmount
            });
            TargetFloor = targetFloor.Generate().GetValueOrDefault();
-           if (TargetFloor == CurrentFloor)
+           while (TargetFloor == CurrentFloor)
            {
                TargetFloor = targetFloor.Generate().GetValueOrDefault();
            }
