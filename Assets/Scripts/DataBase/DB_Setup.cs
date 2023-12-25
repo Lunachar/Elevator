@@ -43,7 +43,6 @@ public class DB_Setup
 
     public void InsertPersonData(Person person)
     {
-        //RotateDatabase();
         using (var connection = new SqliteConnection($"URI=file:{currDbName}"))
         {
             connection.Open();

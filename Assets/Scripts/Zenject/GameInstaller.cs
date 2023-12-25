@@ -18,6 +18,7 @@ namespace Elevator
 
            
             Container.Bind<ConsoleDisplay>().AsSingle();
+            Container.Bind<UnityDisplay>().AsSingle();
             Container.Bind<IElevator>()
                 .To<Elevator>()
                 .AsSingle();
