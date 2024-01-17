@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Elevator
 {
-    public class FloorFactory : PlaceholderFactory<int, int, int, Floor>
+    public class FloorFactory 
     {
         private readonly PersonGenerator _personGenerator;
         private readonly DB_Setup _dbSetup;
@@ -17,7 +17,7 @@ namespace Elevator
             _dbSetup = dbSetup;
         }
 
-        public override Floor Create(int floorNumber, int totalFloors, int maxPeoplePerFloor)
+        public Floor Create(int floorNumber, int totalFloors, int maxPeoplePerFloor)
         {
             var peopleList = _personGenerator.GeneratePeople(maxPeoplePerFloor, floorNumber, totalFloors);
             Debug.Log("here3");

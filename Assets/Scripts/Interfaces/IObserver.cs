@@ -2,6 +2,6 @@
 {
     public interface IObserver
     {
-        void Update(Elevator elevator);
+        // Update(global::Building.Elevator.Elevator elevator);
     }
 }

@@ -9,23 +9,21 @@ namespace Elevator.Display
     {
         private Building _building;
 
-        public void SetBuilding(Building building)
+        public ConsoleDisplay(Building building)
         {
             _building = building;
         }
-
+        
         public void ShowFloorDetailsInConsole()
         {
-            if (_building != null)
+            if (_building == null) return;
+            foreach (var floor in _building._floorList.GetFloors())
             {
-                foreach (var floor in _building._floors)
-                {
-                    Debug.Log($"Floor {floor.Number}, peoples {floor.GetPersonsListOnFloor().Count}: ");
+                Debug.Log($"Floor {floor.Number}, peoples {floor.GetPersonsListOnFloor().Count}: ");
 
-                    foreach (var person in floor.GetPersonsListOnFloor())
-                    {
-                        Debug.Log(person.ToString());
-                    }
+                foreach (var person in floor.GetPersonsListOnFloor())
+                {
+                    Debug.Log(person.ToString());
                 }
             }
         }

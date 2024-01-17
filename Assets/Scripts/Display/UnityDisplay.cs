@@ -5,47 +5,57 @@ using Zenject;
 
 namespace Elevator.Display
 {
-    public class UnityDisplay /*: MonoBehaviour, IObserver*/
+    public class UnityDisplay : MonoBehaviour, IObserver
     {
-        public GameObject BuildingPrefab;
-        public GameObject ElevatorPrefab;
-        public GameObject FloorPrefab;
-        public GameObject PersonPrefab;
+         private Building _building;
+         private FloorList _floorList;
 
-        [Inject] private Building _building;
-        [Inject] private Floor _floor;
+         private GameObject _buildingGO;
+         
+         private int _numberOfFloors;
 
-        internal void Start()
+         
+
+         [Inject]
+         public void Construct(Building building, FloorList floorList)
+         {
+             _building = building;
+             _floorList = floorList;
+         }
+        
+        
+
+        public void Start()
         {
-            GameObject building = Instantiate(BuildingPrefab, new Vector3(0, 0,0), Quaternion.identity);
-            GameObject elevator = Instantiate(ElevatorPrefab, building.transform);
-            GameObject firstFloor = Instantiate(FloorPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
-            firstFloor.transform.SetParent(building.transform);
+            _numberOfFloors = _building._floorList.GetFloors().Count;
 
-                int numberOfFloors = _building._floors.Count;
-                float floorHeight = 5.0f;
-                for (int i = 1; i < numberOfFloors; i++)
-                {
-                    GameObject floor = Instantiate(FloorPrefab, new Vector3(0f, i * floorHeight, 0f), Quaternion.identity);
-                    floor.transform.SetParent(building.transform);
-                }
+            Debug.Log($"Count: {_numberOfFloors} \n Total Floors: {_numberOfFloors}");
             
-
-            // int numberOfPeople = 3;
-            // for (int i = 0; i <= numberOfPeople; i++)
-            // {
-            //     GameObject person = Instantiate(PersonPrefab, new Vector3(0f, i * floorHeight, 0f), Quaternion.identity);
-            //     person.transform.SetParent(building.transform);
-            // }
+            //VisualizeBuilding();
         }
-        public void SetBuilding(Building building)
+
+        internal void VisualizeBuilding(GameObject buildingPrefab, GameObject elevatorPrefab, GameObject floorPrefab, GameObject personPrefab)
         {
-            _building = building;
+            int floorHeight = 5;
+            for (int i = 1; i < _numberOfFloors; i++)
+            {
+                GameObject floor = Instantiate(floorPrefab, new Vector3(0f, i * floorHeight, 0f), Quaternion.identity);
+                //floor.transform.SetParent(buildingGO.transform);
+            }
         }
 
-        // public void Update(Elevator elevator)
+
+        // public void SetFloor(Floor floor)
         // {
-        //     
+        //     _floor = floor;
         // }
+
+        
+        
+
+        public void Update()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

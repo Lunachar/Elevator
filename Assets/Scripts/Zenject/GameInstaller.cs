@@ -1,36 +1,50 @@
+using System.Collections.Generic;
 using Elevator.Display;
 using Elevator.Interfaces;
 using Elevator.Managers;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Elevator
 {
     public class GameInstaller : MonoInstaller
     {
+        [SerializeField] private Boot bootInstance;
         public override void InstallBindings()
         {
+            Container.BindInstance(bootInstance).AsSingle();
             Debug.Log("1: in GameInstaller");
-           
-            Container.BindFactory<int, int, int, Floor, FloorFactory>();
-            Container.Bind<PersonGenerator>().AsSingle();
-            
-
-           
-            Container.Bind<ConsoleDisplay>().AsSingle();
-            Container.Bind<UnityDisplay>().AsSingle();
-            Container.Bind<IElevator>()
-                .To<Elevator>()
-                .AsSingle();
-            
-            Container.Bind<Boot>().AsSingle();
-            Container.Bind<DatabaseManager>().AsSingle();
-            Container.Bind<DB_Setup>().AsSingle();
-            Container.Bind<Floor>().AsTransient();
             Container.Bind<Building>().AsSingle();
+            Debug.Log("2: in GameInstaller");
+            Container.Bind<FloorFactory>().AsSingle();
+            Debug.Log("3: in GameInstaller");
+            Container.Bind<Floor>().AsTransient();
+            Container.Bind<FloorList>().AsSingle();
+            Debug.Log("4: in GameInstaller");
+
+            Container.Bind<PersonGenerator>().AsSingle();
+            Debug.Log("5: in GameInstaller");
+            
+            Container.Bind<ConsoleDisplay>().AsSingle();
+            Debug.Log("6: in GameInstaller");
+            Container.Bind<UnityDisplay>().AsSingle();
+            Debug.Log("7: in GameInstaller");
+            Container.Bind<IElevator>()
+                .To<global::Building.Elevator.Elevator>()
+                .AsSingle();
+            Container.Bind<DatabaseManager>().AsSingle();
+            Debug.Log("8: in GameInstaller");
+            Container.Bind<DB_Setup>().AsSingle();
+            
+            
+            
+            Debug.Log($"in GameInstaller 2");
+            Debug.Log($"in GameInstaller 3");
             //Container.Bind<Person>().AsTransient();
         }
 
+        
     }
         
 }

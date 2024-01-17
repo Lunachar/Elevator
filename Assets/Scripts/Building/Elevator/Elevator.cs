@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using Elevator;
 using Elevator.Interfaces;
 
-namespace Elevator
+namespace Building.Elevator
 {
     public class Elevator : IElevator
     {
@@ -9,17 +10,19 @@ namespace Elevator
         public int CurrentFloor { get; set; }
         public List<IObserver> Observers { get; set; }
 
-        // public Elevator(int capacity)
+        private Boot _boot;
+
+        public Elevator()
+        {
+            if (_boot != null) Capacity = _boot.ElevatorCapacity;
+            CurrentFloor = 1;
+            Observers = new List<IObserver>();
+        }
+
+        // public void SetCapacity(int capacity)
         // {
         //     Capacity = capacity;
-        //     CurrentFloor = 1;
-        //     Observers = new List<IObserver>();
         // }
-
-        public void SetCapacity(int capacity)
-        {
-            Capacity = capacity;
-        }
 
         public void Attach(IObserver observer)
         {
@@ -33,10 +36,10 @@ namespace Elevator
 
         public void Notify()
         {
-            foreach (var observer in Observers)
-            {
-                observer.Update(this);
-            }
+            // foreach (var observer in Observers)
+            // {
+            //     observer.Update(this);
+            // }
         }
 
         public void CallTo(int floorNumber)

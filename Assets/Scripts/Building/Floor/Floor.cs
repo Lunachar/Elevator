@@ -3,6 +3,7 @@ using Elevator.Managers;
 using RandomDataGenerator;
 using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
+using UnityEngine;
 using Zenject;
 
 
@@ -10,20 +11,22 @@ namespace Elevator
 {
     public class Floor
     {
-        private readonly PersonGenerator _personGenerator;
         public int Number { get; }
         public int TotalFloors { get; }
         
+        private readonly PersonGenerator _personGenerator;
+
         private List<Person> _personList;
 
-        public Floor(int floorNumber, int totalFloors, int maxPeoplePerFloor, PersonGenerator personGenerator, DatabaseManager databaseManager)
+
+        public Floor(int floorNumber, int totalFloors, int maxPeoplePerFloor, PersonGenerator personGenerator,
+            DatabaseManager databaseManager)
         {
             Number = floorNumber;
             TotalFloors = totalFloors;
             _personGenerator = personGenerator;
             _personList = _personGenerator.GeneratePeople(maxPeoplePerFloor, floorNumber, totalFloors);
         }
-
 
         public void SetPersonsListOnFloor(List<Person> personsList)
         {

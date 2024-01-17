@@ -8,37 +8,54 @@ using Zenject;
 
 namespace Elevator
 {
-    public class Boot : MonoBehaviour
+    public class Boot : MonoBehaviour, IStartData
     {
-        [Inject] private ConsoleDisplay _consoleDisplay;
-        [Inject] private UnityDisplay _unityDisplay;
+        private ConsoleDisplay _consoleDisplay;
+        private UnityDisplay _unityDisplay;
         private Building _building;
-        //[Inject] private DB_Setup _dbSetup;
-        [Inject] private IElevator _elevator;
-        [Inject] private FloorFactory _floorFactory;
-        [Inject] private DatabaseManager _databaseManager;
         
+        private IElevator _elevator;
+        private FloorFactory _floorFactory;
+        private FloorList _floorList;
+        
+        private DatabaseManager _databaseManager;
+        
+        #region The only input data in the game
+
         public int NumberOfFloors;
         public int ElevatorCapacity;
         public int MaxPeoplePerFloor;
+        
+        #endregion
+
 
         [Inject]
-        public void Construct()
+        public void Construct(Building building, ConsoleDisplay consoleDisplay/*, UnityDisplay unityDisplay*/, IElevator elevator, FloorFactory floorFactory, DatabaseManager databaseManager, FloorList floorList)
         {
-            _building = new Building(NumberOfFloors, _elevator, ElevatorCapacity,  MaxPeoplePerFloor, _floorFactory);
-            _consoleDisplay.SetBuilding(_building);
-            _unityDisplay.SetBuilding(_building);
-            
+            Debug.Log("1: in Boot");
+            _consoleDisplay = consoleDisplay;
+            Debug.Log("2: in Boot");
+            //_unityDisplay = unityDisplay;
+            Debug.Log("3: in Boot");
+            _building = building;
+            _elevator = elevator;
+            _floorFactory = floorFactory;
+            _databaseManager = databaseManager;
+            _floorList = floorList;
         }
-
         private void Start()
         {
+            Debug.Log($"constr 1");
+            
             if (_building != null && _consoleDisplay != null)
             {
+                Debug.Log($"1 {_building.ToString()}");
+                Debug.Log($"2 {_building._floorList.ToString()}");
+                Debug.Log($"there ARE : {_building._floorList.GetFloors().Count}");
                 ShowFloorDetails();
                 RotateDatabase();
                 SavePersonsToDB();
-                _unityDisplay.Start();
+                //_unityDisplay.VisualizeBuilding(BuildingPrefab, ElevatorPrefab, FloorPrefab, PersonPrefab);
             }
             else
             {
@@ -50,10 +67,22 @@ namespace Elevator
         {
             _consoleDisplay.ShowFloorDetailsInConsole();
         }
+        
+        // public List<Floor> GenerateFloors()/*(int numberOfFloors, FloorFactory floorFactory)*/
+        // {
+        //     List<Floor> floors = new List<Floor>();
+        //     Debug.Log("here2");
+        //     for (int i = 1; i <= NumberOfFloors; i++)
+        //     {
+        //         floors.Add(_floorFactory.Create(i, NumberOfFloors, MaxPeoplePerFloor));
+        //     }
+        //
+        //     return floors;
+        // }
 
         private void SavePersonsToDB()
         {
-            foreach (var floor in _building._floors)
+            foreach (var floor in _building._floorList.GetFloors())
             {
                 _databaseManager.SavePeopleToDB(floor.GetPersonsListOnFloor());
             }
@@ -62,6 +91,21 @@ namespace Elevator
         private void RotateDatabase()
         {
             _databaseManager.RotateDatabase();
+        }
+
+        public int GetMaxPeoplePerFloor()
+        {
+            return MaxPeoplePerFloor;
+        }
+
+        public int GetNumberOfFloors()
+        {
+            return NumberOfFloors;
+        }
+
+        public int GetElevatorCapacity()
+        {
+            return ElevatorCapacity;
         }
     }
 }

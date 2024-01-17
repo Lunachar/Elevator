@@ -3575,5 +3575,10 @@ namespace Zenject
             public readonly IProvider Provider;
             public readonly BindingCondition Condition;
         }
+
+        public void InstantiateComponent<T>()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

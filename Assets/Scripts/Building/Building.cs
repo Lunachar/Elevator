@@ -9,31 +9,35 @@ namespace Elevator
 {
     public class Building
     {
-        internal List<Floor> _floors { get; set; }
         private IElevator _elevator { get; set; }
         private int _maxPeoplePerFloor { get; set; }
+        //internal List<Floor> _floors { get; private set; }
 
-        public Building(int numberOfFloors, IElevator elevator, int elevatorCapacity, int maxPeoplePerFloor, FloorFactory floorFactory)
+        public FloorList _floorList;
+        //private Boot _boot;
+
+        public Building(IElevator elevator/*, Boot boot*/, FloorList floorList)
         {
             Debug.Log("2: in Building construct");
-            _maxPeoplePerFloor = maxPeoplePerFloor;
-            _floors = GenerateFloors(numberOfFloors, floorFactory);
-            Debug.Log("here1");
+            
             _elevator = elevator;
-            _elevator.SetCapacity(elevatorCapacity);
+            //_maxPeoplePerFloor = boot.GetMaxPeoplePerFloor();
+            _floorList = floorList;
+            
+            Debug.Log("3: in Building construct");
         }
 
-        private List<Floor> GenerateFloors(int numberOfFloors, FloorFactory floorFactory)
-        {
-            List<Floor> floors = new List<Floor>();
-            Debug.Log("here2");
-            for (int i = 1; i <= numberOfFloors; i++)
-            {
-                floors.Add(floorFactory.Create(i, numberOfFloors, _maxPeoplePerFloor));
-            }
-
-            return floors;
-        }
+        // private List<Floor> GenerateFloors(int numberOfFloors, FloorFactory floorFactory)
+        // {
+        //     List<Floor> floors = new List<Floor>();
+        //     Debug.Log("here2");
+        //     for (int i = 1; i <= numberOfFloors; i++)
+        //     {
+        //         floors.Add(floorFactory.Create(i, numberOfFloors, _maxPeoplePerFloor));
+        //     }
+        //
+        //     return floors;
+        // }
 
         public void CallElevator(int floorNumber)
         {
