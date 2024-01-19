@@ -7,12 +7,10 @@ namespace Elevator
 {
     public class PrefabInstaller : MonoInstaller
     {
-        public GameObject buildingGo;
-        public Transform buildingSpawnPosition;
-        
-        public GameObject elevatorGo;
-        public GameObject floorGo;
-        public GameObject personGo;
+        public BuildingGO buildingGo;
+        public ElevatorGO elevatorGo;
+        public FloorGO floorGo;
+        public PersonGO personGo;
 
         public override void InstallBindings()
         {
@@ -24,12 +22,8 @@ namespace Elevator
         
         private void BindBuildingGO()
         {
-            // var buildingInstance = Container
-            //     .InstantiatePrefabForComponent<BuildingGO>(buildingGo, buildingSpawnPosition.position, Quaternion.identity,
-            //         null);
-            
             Container
-                .Bind<GameObject>()
+                .Bind<BuildingGO>()
                 .FromInstance(buildingGo)
                 .AsSingle();
         }
@@ -37,21 +31,21 @@ namespace Elevator
         private void BindElevatorGO()
         {
             Container
-                .Bind<GameObject>()
+                .Bind<ElevatorGO>()
                 .FromInstance(elevatorGo)
                 .AsSingle();
         }
         private void BindFloorGO()
         {
             Container
-                .Bind<GameObject>()
+                .Bind<FloorGO>()
                 .FromInstance(floorGo)
                 .AsSingle();
         }
         private void BindPersonGO()
         {
             Container
-                .Bind<GameObject>()
+                .Bind<PersonGO>()
                 .FromInstance(personGo)
                 .AsSingle();
         }

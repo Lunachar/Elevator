@@ -11,9 +11,11 @@ namespace Elevator
     public class GameInstaller : MonoInstaller
     {
         [SerializeField] private Boot bootInstance;
+        [SerializeField] private UnityDisplay unityDisplayInstance;
         public override void InstallBindings()
         {
             Container.BindInstance(bootInstance).AsSingle();
+            Container.BindInstance(unityDisplayInstance).AsSingle();
             Debug.Log("1: in GameInstaller");
             Container.Bind<Building>().AsSingle();
             Debug.Log("2: in GameInstaller");
@@ -28,7 +30,7 @@ namespace Elevator
             
             Container.Bind<ConsoleDisplay>().AsSingle();
             Debug.Log("6: in GameInstaller");
-            Container.Bind<UnityDisplay>().AsSingle();
+            //Container.Bind<UnityDisplay>().AsSingle();
             Debug.Log("7: in GameInstaller");
             Container.Bind<IElevator>()
                 .To<global::Building.Elevator.Elevator>()

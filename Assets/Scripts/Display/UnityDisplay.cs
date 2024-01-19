@@ -1,5 +1,6 @@
 ﻿using System;
 using Elevator.Interfaces;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -10,17 +11,21 @@ namespace Elevator.Display
          private Building _building;
          private FloorList _floorList;
 
-         private GameObject _buildingGO;
+         private BuildingGO _buildingGO;
+         private DiContainer _container;
          
          private int _numberOfFloors;
 
          
 
          [Inject]
-         public void Construct(Building building, FloorList floorList)
+         public void Construct(Building building, FloorList floorList, DiContainer container, BuildingGO buildingGo)
          {
              _building = building;
              _floorList = floorList;
+
+             _container = container;
+             _buildingGO = buildingGo;
          }
         
         
@@ -31,17 +36,18 @@ namespace Elevator.Display
 
             Debug.Log($"Count: {_numberOfFloors} \n Total Floors: {_numberOfFloors}");
             
-            //VisualizeBuilding();
+            VisualizeBuilding();
         }
 
-        internal void VisualizeBuilding(GameObject buildingPrefab, GameObject elevatorPrefab, GameObject floorPrefab, GameObject personPrefab)
+        internal void VisualizeBuilding()
         {
-            int floorHeight = 5;
-            for (int i = 1; i < _numberOfFloors; i++)
-            {
-                GameObject floor = Instantiate(floorPrefab, new Vector3(0f, i * floorHeight, 0f), Quaternion.identity);
-                //floor.transform.SetParent(buildingGO.transform);
-            }
+            var buildingInstance = _container.InstantiatePrefabForComponent<BuildingGO>(_buildingGO);
+            // int floorHeight = 5;
+            // for (int i = 1; i < _numberOfFloors; i++)
+            // {
+            //     GameObject floor = Instantiate(floorPrefab, new Vector3(0f, i * floorHeight, 0f), Quaternion.identity);
+            //     //floor.transform.SetParent(buildingGO.transform);
+            // }
         }
 
 
@@ -55,7 +61,7 @@ namespace Elevator.Display
 
         public void Update()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }

@@ -30,12 +30,12 @@ namespace Elevator
 
 
         [Inject]
-        public void Construct(Building building, ConsoleDisplay consoleDisplay/*, UnityDisplay unityDisplay*/, IElevator elevator, FloorFactory floorFactory, DatabaseManager databaseManager, FloorList floorList)
+        public void Construct(Building building, ConsoleDisplay consoleDisplay, UnityDisplay unityDisplay, IElevator elevator, FloorFactory floorFactory, DatabaseManager databaseManager, FloorList floorList)
         {
             Debug.Log("1: in Boot");
             _consoleDisplay = consoleDisplay;
             Debug.Log("2: in Boot");
-            //_unityDisplay = unityDisplay;
+            _unityDisplay = unityDisplay;
             Debug.Log("3: in Boot");
             _building = building;
             _elevator = elevator;
