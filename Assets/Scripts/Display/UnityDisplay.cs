@@ -9,23 +9,29 @@ namespace Elevator.Display
     public class UnityDisplay : MonoBehaviour, IObserver
     {
          private Building _building;
-         private FloorList _floorList;
 
-         private BuildingGO _buildingGO;
          private DiContainer _container;
+         
+         private BuildingGO _buildingGO;
+         private FloorGO _floorGO;
+         private ElevatorGO _elevatorGo;
+         private PersonGO _personGo;
          
          private int _numberOfFloors;
 
          
 
          [Inject]
-         public void Construct(Building building, FloorList floorList, DiContainer container, BuildingGO buildingGo)
+         public void Construct(Building building, DiContainer container, BuildingGO buildingGo, FloorGO floorGo, ElevatorGO elevatorGo, PersonGO personGo)
          {
              _building = building;
-             _floorList = floorList;
 
              _container = container;
+             
              _buildingGO = buildingGo;
+             _floorGO = floorGo;
+             _elevatorGo = elevatorGo;
+             _personGo = personGo;
          }
         
         
@@ -42,19 +48,31 @@ namespace Elevator.Display
         internal void VisualizeBuilding()
         {
             var buildingInstance = _container.InstantiatePrefabForComponent<BuildingGO>(_buildingGO);
-            // int floorHeight = 5;
-            // for (int i = 1; i < _numberOfFloors; i++)
-            // {
-            //     GameObject floor = Instantiate(floorPrefab, new Vector3(0f, i * floorHeight, 0f), Quaternion.identity);
-            //     //floor.transform.SetParent(buildingGO.transform);
-            // }
+            int floorHeight = 0;
+            foreach(var floor in _building._floorList.GetFloors())
+            {
+                var floorInstance = _container.InstantiatePrefabForComponent<FloorGO>(_floorGO,
+                    new Vector3(0f, (floor.Number - 1 + floorHeight), 0f),
+                    Quaternion.identity,
+                    buildingInstance.transform);
+
+                var personsOnFloor = floor.GetPersonsListOnFloor();
+                int personOffset = 0;
+                foreach (var person in personsOnFloor)
+                {
+                    var personInstance = _container.InstantiatePrefabForComponent<PersonGO>(_personGo,
+                        new Vector3(1f * personOffset, (floor.Number + floorHeight - 3.5f), 0f),
+                        Quaternion.identity, 
+                        floorInstance.transform);
+                    personOffset += 2;
+                }
+                floorHeight += 5;
+            }
+
+            var elevatorInstance = _container.InstantiatePrefabForComponent<ElevatorGO>(_elevatorGo);
         }
 
 
-        // public void SetFloor(Floor floor)
-        // {
-        //     _floor = floor;
-        // }
 
         
         

@@ -45,6 +45,11 @@ namespace Elevator
            }
         }
 
+        // public string GetPersonName()
+        // {
+        //     return 
+        // }
+        
         public override string ToString()
         {
             return $"{Name} {LastName}, {Age}. Now on {CurrentFloor} floor, destination: {TargetFloor} floor.";
