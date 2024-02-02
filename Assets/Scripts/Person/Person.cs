@@ -2,6 +2,7 @@
 using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
 using Unity.VisualScripting;
+using Zenject;
 
 
 namespace Elevator
@@ -14,8 +15,22 @@ namespace Elevator
         internal int CurrentFloor { get; set; }
         internal int TargetFloor { get; set; }
         internal bool Completed { get; set; }
+        
+        private Building _building;
+        private Boot _boot;
+        private int _totalFloors;
 
-        public Person(int currentFloor, int floorsAmount)
+        [Inject]
+        public void Construct(Building building, Boot boot,  int currentFloor, int totalFloors)
+        {
+            _building = building;
+            _boot = boot;
+            CurrentFloor = currentFloor;
+            _totalFloors = totalFloors;
+            //_floor = floor;
+        }
+
+        public Person()
         {
            var personFirstNameGenerator = RandomizerFactory.GetRandomizer(new FieldOptionsFirstName());
            Name = personFirstNameGenerator.Generate();
@@ -31,12 +46,12 @@ namespace Elevator
            Age = age.Generate().GetValueOrDefault();
 
 
-           CurrentFloor = currentFloor;
+           //CurrentFloor = GetCurrentFloor();
            
            var targetFloor = new RandomizerNumber<int>(new FieldOptionsInteger()
            {
                Min = 1,
-               Max = floorsAmount
+               Max = _boot.GetNumberOfFloors() /*????*/
            });
            TargetFloor = targetFloor.Generate().GetValueOrDefault();
            while (TargetFloor == CurrentFloor)
@@ -45,10 +60,10 @@ namespace Elevator
            }
         }
 
-        // public string GetPersonName()
-        // {
-        //     return 
-        // }
+        public string GetPersonName()
+        {
+            return $"{Name} {LastName}";
+        }
         
         public override string ToString()
         {

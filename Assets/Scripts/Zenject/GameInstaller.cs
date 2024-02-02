@@ -25,6 +25,7 @@ namespace Elevator
             Container.Bind<FloorList>().AsSingle();
             Debug.Log("4: in GameInstaller");
 
+            Container.Bind<Person>().AsTransient();
             Container.Bind<PersonGenerator>().AsSingle();
             Debug.Log("5: in GameInstaller");
             
@@ -43,7 +44,6 @@ namespace Elevator
             
             Debug.Log($"in GameInstaller 2");
             Debug.Log($"in GameInstaller 3");
-            //Container.Bind<Person>().AsTransient();
         }
 
         

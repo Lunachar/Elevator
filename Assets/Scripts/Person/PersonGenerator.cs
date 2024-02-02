@@ -17,7 +17,8 @@ namespace Elevator
             
             for (int i = 0; i < numberOfPeople; i++)
             {
-                var person = new Person(floorNumber, totalFloors);
+                var person = new Person();
+                person.Construct(null, null, floorNumber, totalFloors);
                 generatedPeople.Add(person);
             }
             return generatedPeople;
