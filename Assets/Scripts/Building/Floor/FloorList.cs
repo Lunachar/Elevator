@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Elevator
 {
@@ -11,10 +12,12 @@ namespace Elevator
         {
             _boot = boot;
             var numberOfFloors = _boot.GetNumberOfFloors();
+            Debug.Log($"||FLOORLIST {numberOfFloors}");
            
             _floors = GenerateFloors(numberOfFloors, floorFactory);;
         }
-        public List<Floor> GenerateFloors(int numberOfFloors, FloorFactory floorFactory)
+
+        private List<Floor> GenerateFloors(int numberOfFloors, FloorFactory floorFactory)
         {
             var maxPeoplePerFloor = _boot.GetMaxPeoplePerFloor();
             List<Floor> floors = new List<Floor>();

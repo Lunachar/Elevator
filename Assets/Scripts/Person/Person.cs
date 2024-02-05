@@ -2,6 +2,7 @@
 using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
 using Unity.VisualScripting;
+using UnityEngine;
 using Zenject;
 
 
@@ -21,19 +22,15 @@ namespace Elevator
         private int _totalFloors;
 
         [Inject]
-        public void Construct(Building building, Boot boot,  int currentFloor, int totalFloors)
-        {
-            _building = building;
-            _boot = boot;
-            CurrentFloor = currentFloor;
-            _totalFloors = totalFloors;
-            //_floor = floor;
-        }
+            private PersonGenerator _personGenerator;
 
-        public Person()
+        
+        public void Initialize()
         {
+            //_totalFloors = _boot.GetNumberOfFloors();
            var personFirstNameGenerator = RandomizerFactory.GetRandomizer(new FieldOptionsFirstName());
            Name = personFirstNameGenerator.Generate();
+           Debug.Log($"|||NAME: {Name}");
 
            var personLastNameGenerator = RandomizerFactory.GetRandomizer(new FieldOptionsLastName());
            LastName = personLastNameGenerator.Generate();
@@ -44,17 +41,18 @@ namespace Elevator
                Max = 120
            });
            Age = age.Generate().GetValueOrDefault();
-
-
-           //CurrentFloor = GetCurrentFloor();
            
+           Debug.Log($"||PERSON CURRENT FLOOR {_personGenerator.GetCurrentFloor()}");
+           Debug.Log($"||PERSON TOTAL FLOORS {_personGenerator.GetTotalFloors()}");
+
+           CurrentFloor = _personGenerator.GetCurrentFloor();
            var targetFloor = new RandomizerNumber<int>(new FieldOptionsInteger()
            {
                Min = 1,
-               Max = _boot.GetNumberOfFloors() /*????*/
+               Max = _personGenerator.GetTotalFloors() /*????*/
            });
            TargetFloor = targetFloor.Generate().GetValueOrDefault();
-           while (TargetFloor == CurrentFloor)
+           while (TargetFloor == _personGenerator.GetCurrentFloor())
            {
                TargetFloor = targetFloor.Generate().GetValueOrDefault();
            }

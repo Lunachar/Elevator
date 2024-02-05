@@ -19,8 +19,8 @@ namespace Elevator
         private List<Person> _personList;
 
 
-        public Floor(int floorNumber, int totalFloors, int maxPeoplePerFloor, PersonGenerator personGenerator,
-            DatabaseManager databaseManager)
+        public Floor(int floorNumber, int totalFloors, int maxPeoplePerFloor, PersonGenerator personGenerator/*,
+            DatabaseManager databaseManager*/)
         {
             Number = floorNumber;
             TotalFloors = totalFloors;
