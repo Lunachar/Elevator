@@ -45,7 +45,7 @@ namespace Elevator.Display
             VisualizeBuilding();
         }
 
-        internal void VisualizeBuilding()
+        private void VisualizeBuilding()
         {
             var buildingInstance = _container.InstantiatePrefabForComponent<BuildingGO>(_buildingGO);
             int floorHeight = 0;
@@ -64,6 +64,7 @@ namespace Elevator.Display
                         new Vector3(1f * personOffset, (floor.Number + floorHeight - 3.5f), 0f),
                         Quaternion.identity, 
                         floorInstance.transform);
+                    personInstance._text.text = person.GetPersonName();
                     personOffset += 2;
                 }
                 floorHeight += 5;

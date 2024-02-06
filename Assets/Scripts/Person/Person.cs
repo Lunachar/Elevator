@@ -41,15 +41,12 @@ namespace Elevator
                Max = 120
            });
            Age = age.Generate().GetValueOrDefault();
-           
-           Debug.Log($"||PERSON CURRENT FLOOR {_personGenerator.GetCurrentFloor()}");
-           Debug.Log($"||PERSON TOTAL FLOORS {_personGenerator.GetTotalFloors()}");
-
+          
            CurrentFloor = _personGenerator.GetCurrentFloor();
            var targetFloor = new RandomizerNumber<int>(new FieldOptionsInteger()
            {
                Min = 1,
-               Max = _personGenerator.GetTotalFloors() /*????*/
+               Max = _personGenerator.GetTotalFloors() 
            });
            TargetFloor = targetFloor.Generate().GetValueOrDefault();
            while (TargetFloor == _personGenerator.GetCurrentFloor())

@@ -26,7 +26,7 @@ namespace Elevator
             var numberOfPeople = new RandomizerNumber<int>(new FieldOptionsInteger()
             {
                 Min = 0,
-                Max = maxPeoplePerFloor
+                Max = maxPeoplePerFloor + 1
             }).Generate().GetValueOrDefault();
             
             for (int i = 0; i < numberOfPeople; i++)

@@ -19,7 +19,6 @@ namespace Elevator
 
         private List<Floor> GenerateFloors(int numberOfFloors, FloorFactory floorFactory)
         {
-            var maxPeoplePerFloor = _boot.GetMaxPeoplePerFloor();
             List<Floor> floors = new List<Floor>();
             for (int i = 1; i <= numberOfFloors; i++)
             {
