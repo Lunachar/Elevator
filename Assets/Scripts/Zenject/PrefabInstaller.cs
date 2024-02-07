@@ -12,6 +12,8 @@ namespace Elevator
         public FloorGO floorGo;
         public PersonGO personGo;
 
+        public EmptyObject emptyObject;
+
         public override void InstallBindings()
         {
             BindBuildingGO();
@@ -49,7 +51,13 @@ namespace Elevator
                 .FromInstance(personGo)
                 .AsSingle();
         }
-        
+        private void BindEmptyObject()
+        {
+            Container
+                .Bind<EmptyObject>()
+                .FromInstance(emptyObject)
+                .AsSingle();
+        }
         
     }
 }
