@@ -20,6 +20,7 @@ namespace Elevator
             BindElevatorGO();
             BindFloorGO();
             BindPersonGO();
+            BindEmptyObject();
         }
         
         private void BindBuildingGO()

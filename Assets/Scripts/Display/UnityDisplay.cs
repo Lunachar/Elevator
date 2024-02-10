@@ -12,7 +12,6 @@ namespace Elevator.Display
 
          private DiContainer _container;
          
-         private BuildingGO _buildingGO;
          private FloorGO _floorGO;
          private ElevatorGO _elevatorGo;
          private PersonGO _personGo;
@@ -23,13 +22,12 @@ namespace Elevator.Display
          
 
          [Inject]
-         public void Construct(Building building, DiContainer container, BuildingGO buildingGo, FloorGO floorGo, ElevatorGO elevatorGo, PersonGO personGo, EmptyObject emptyObject)
+         public void Construct(Building building, DiContainer container, FloorGO floorGo, ElevatorGO elevatorGo, PersonGO personGo, EmptyObject emptyObject)
          {
              _building = building;
 
              _container = container;
              
-             _buildingGO = buildingGo;
              _floorGO = floorGo;
              _elevatorGo = elevatorGo;
              _personGo = personGo;
@@ -40,9 +38,9 @@ namespace Elevator.Display
 
         public void Start()
         {
-            _numberOfFloors = _building._floorList.GetFloors().Count;
+            //_numberOfFloors = _building._floorList.GetFloors().Count;
 
-            Debug.Log($"Count: {_numberOfFloors} \n Total Floors: {_numberOfFloors}");
+            //Debug.Log($"Count: {_numberOfFloors} \n Total Floors: {_numberOfFloors}");
             
             VisualizeBuilding();
         }
@@ -51,14 +49,17 @@ namespace Elevator.Display
         {
             var emptyObject = Instantiate(_emptyObject);
             emptyObject.name = "STAGE";
-            //var buildingInstance = _container.InstantiatePrefabForComponent<BuildingGO>(_buildingGO);
+            
             int floorHeight = 0;
-            foreach(var floor in _building._floorList.GetFloors())
+            var floors = _building._floorList.GetFloors();
+            for (var i = 0; i < floors.Count; i++)
             {
+                var floor = floors[i];
                 var floorInstance = _container.InstantiatePrefabForComponent<FloorGO>(_floorGO,
                     new Vector3(0f, (floor.Number - 1 + floorHeight), 0f),
                     Quaternion.identity,
                     emptyObject.transform);
+                floorInstance.name = $"Floor {i + 1}";
 
                 var personsOnFloor = floor.GetPersonsListOnFloor();
                 int personOffset = 0;
@@ -66,15 +67,16 @@ namespace Elevator.Display
                 {
                     var personInstance = _container.InstantiatePrefabForComponent<PersonGO>(_personGo,
                         new Vector3((1f * personOffset) - 2, (floor.Number + floorHeight - 3.5f), 0f),
-                        Quaternion.identity, 
+                        Quaternion.identity,
                         floorInstance.transform);
                     personInstance._text.text = person.GetPersonName();
                     personOffset += 2;
                 }
+
                 floorHeight += 5;
             }
 
-            var elevatorInstance = _container.InstantiatePrefabForComponent<ElevatorGO>(_elevatorGo);
+            /*var elevatorInstance = */_container.InstantiatePrefabForComponent<ElevatorGO>(_elevatorGo);
         }
 
 
