@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Elevator;
 using Elevator.Interfaces;
+using UnityEngine;
 
 namespace Building.Elevator
 {
@@ -14,7 +15,8 @@ namespace Building.Elevator
 
         public Elevator()
         {
-            if (_boot != null) Capacity = _boot.ElevatorCapacity;
+            if (_boot == null) return;
+            Capacity = _boot.ElevatorCapacity;
             CurrentFloor = 1;
             Observers = new List<IObserver>();
         }
@@ -41,6 +43,8 @@ namespace Building.Elevator
             //     observer.Update(this);
             // }
         }
+        
+
 
         public void CallTo(int floorNumber)
         {

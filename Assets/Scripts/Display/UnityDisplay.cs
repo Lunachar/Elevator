@@ -1,7 +1,10 @@
 ﻿using System;
 using Elevator.Interfaces;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UIElements;
 using Zenject;
 
 namespace Elevator.Display
@@ -18,6 +21,9 @@ namespace Elevator.Display
          private EmptyObject _emptyObject;
          
          private int _numberOfFloors;
+
+         public GameObject button;
+         public GameObject Menu;
 
          
 
@@ -37,12 +43,9 @@ namespace Elevator.Display
         
 
         public void Start()
-        {
-            //_numberOfFloors = _building._floorList.GetFloors().Count;
-
-            //Debug.Log($"Count: {_numberOfFloors} \n Total Floors: {_numberOfFloors}");
-            
+        {   
             VisualizeBuilding();
+            VisualizeControlPanel();
         }
 
         private void VisualizeBuilding()
@@ -50,7 +53,7 @@ namespace Elevator.Display
             var emptyObject = Instantiate(_emptyObject);
             emptyObject.name = "STAGE";
             
-            int floorHeight = 0;
+            var floorHeight = 0;
             var floors = _building._floorList.GetFloors();
             for (var i = 0; i < floors.Count; i++)
             {
@@ -59,7 +62,8 @@ namespace Elevator.Display
                     new Vector3(0f, (floor.Number - 1 + floorHeight), 0f),
                     Quaternion.identity,
                     emptyObject.transform);
-                floorInstance.name = $"Floor {i + 1}";
+                floorInstance.name = $"Floor {floor.Number}";
+                _floorGO._text.text = $"Floor {floor.Number}";
 
                 var personsOnFloor = floor.GetPersonsListOnFloor();
                 int personOffset = 0;
@@ -79,11 +83,19 @@ namespace Elevator.Display
             /*var elevatorInstance = */_container.InstantiatePrefabForComponent<ElevatorGO>(_elevatorGo);
         }
 
+        private void VisualizeControlPanel()
+        {
+            var buttonUp = Instantiate(button, new Vector3(5.5f, 2f), Quaternion.identity);
+            
+            var buttonDown = Instantiate(button, new Vector3(7.5f, 2f), Quaternion.identity);
+            var bButton = Instantiate(Menu);
+            //bButton.GetComponent<Button>().clicked().Add;
+            //BButton.OnCl
 
+
+        }
 
         
-        
-
         public void Update()
         {
             //throw new NotImplementedException();
