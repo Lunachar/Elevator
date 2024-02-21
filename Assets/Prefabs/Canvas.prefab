@@ -630,4 +630,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonUp: {fileID: 3899480118275990413}
-  buttonDown: {fileID: 0}
+  buttonDown: {fileID: 2734979851691351659}
+  moveDuration: 1

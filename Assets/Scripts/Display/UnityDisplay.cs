@@ -59,7 +59,7 @@ namespace Elevator.Display
             {
                 var floor = floors[i];
                 var floorInstance = _container.InstantiatePrefabForComponent<FloorGO>(_floorGO,
-                    new Vector3(0f, (floor.Number - 1 + floorHeight), 0f),
+                    new Vector3(0f, (floorHeight), 0f),
                     Quaternion.identity,
                     emptyObject.transform);
                 floorInstance.name = $"Floor {floor.Number}";
@@ -77,7 +77,7 @@ namespace Elevator.Display
                     personOffset += 2;
                 }
 
-                floorHeight += 5;
+                floorHeight += 6;
             }
 
             /*var elevatorInstance = */_container.InstantiatePrefabForComponent<ElevatorGO>(_elevatorGo);

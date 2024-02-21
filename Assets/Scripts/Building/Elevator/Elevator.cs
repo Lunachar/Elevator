@@ -11,12 +11,10 @@ namespace Building.Elevator
         public int CurrentFloor { get; set; }
         public List<IObserver> Observers { get; set; }
 
-        private Boot _boot;
-
-        public Elevator()
+        public Elevator(Boot boot)
         {
-            if (_boot == null) return;
-            Capacity = _boot.ElevatorCapacity;
+            Capacity = boot.ElevatorCapacity;
+            Debug.Log($"||| CAPACITY: {Capacity}");
             CurrentFloor = 1;
             Observers = new List<IObserver>();
         }
