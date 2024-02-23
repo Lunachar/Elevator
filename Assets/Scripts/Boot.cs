@@ -20,7 +20,7 @@ namespace Elevator
         
         private DatabaseManager _databaseManager;
         
-        #region The only input data in the game
+        #region The only data input in the game
 
         public int NumberOfFloors;
         public int ElevatorCapacity;

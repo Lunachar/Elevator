@@ -59,18 +59,19 @@ namespace Elevator.Display
             {
                 var floor = floors[i];
                 var floorInstance = _container.InstantiatePrefabForComponent<FloorGO>(_floorGO,
-                    new Vector3(0f, (floorHeight), 0f),
+                    new Vector3(0f, floorHeight, 0f),
                     Quaternion.identity,
                     emptyObject.transform);
                 floorInstance.name = $"Floor {floor.Number}";
-                _floorGO._text.text = $"Floor {floor.Number}";
+                floorInstance.GetComponentInChildren<TMP_Text>().text = $"Floor {floor.Number}";
+                //_floorGO._text.text = $"Floor {floor.Number}";
 
                 var personsOnFloor = floor.GetPersonsListOnFloor();
                 int personOffset = 0;
                 foreach (var person in personsOnFloor)
                 {
                     var personInstance = _container.InstantiatePrefabForComponent<PersonGO>(_personGo,
-                        new Vector3((1f * personOffset) - 2, (floor.Number + floorHeight - 3.5f), 0f),
+                        new Vector3((1f * personOffset) - 2, -2.73f + floorHeight, 0f),
                         Quaternion.identity,
                         floorInstance.transform);
                     personInstance._text.text = person.GetPersonName();

@@ -14,7 +14,6 @@ namespace Building.Elevator
         public Elevator(Boot boot)
         {
             Capacity = boot.ElevatorCapacity;
-            Debug.Log($"||| CAPACITY: {Capacity}");
             CurrentFloor = 1;
             Observers = new List<IObserver>();
         }
