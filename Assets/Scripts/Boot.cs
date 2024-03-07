@@ -13,10 +13,12 @@ namespace Elevator
         private ConsoleDisplay _consoleDisplay;
         private UnityDisplay _unityDisplay;
         private Building _building;
+        private GameObject _stage;
         
         private IElevator _elevator;
         private FloorFactory _floorFactory;
         private FloorList _floorList;
+        private PersonGO _personGo;
         
         private DatabaseManager _databaseManager;
         
@@ -30,7 +32,7 @@ namespace Elevator
 
 
         [Inject]
-        public void Construct(Building building, ConsoleDisplay consoleDisplay, UnityDisplay unityDisplay, IElevator elevator, FloorFactory floorFactory, DatabaseManager databaseManager, FloorList floorList)
+        public void Construct(Building building, ConsoleDisplay consoleDisplay, UnityDisplay unityDisplay, IElevator elevator, FloorFactory floorFactory, DatabaseManager databaseManager, FloorList floorList, PersonGO personGo)
         {
             Debug.Log("1: in Boot");
             _consoleDisplay = consoleDisplay;
@@ -42,6 +44,7 @@ namespace Elevator
             _floorFactory = floorFactory;
             _databaseManager = databaseManager;
             _floorList = floorList;
+            _personGo = personGo;
         }
         private void Start()
         {
@@ -49,12 +52,10 @@ namespace Elevator
             
             if (_building != null && _consoleDisplay != null)
             {
-                Debug.Log($"1 {_building.ToString()}");
-                Debug.Log($"2 {_building._floorList.ToString()}");
-                Debug.Log($"there ARE : {_building._floorList.GetFloors().Count}");
-                ShowFloorDetails();
+               ShowFloorDetails();
                 RotateDatabase();
                 SavePersonsToDB();
+                _stage = GameObject.Find("STAGE");
                 //_unityDisplay.VisualizeBuilding(BuildingPrefab, ElevatorPrefab, FloorPrefab, PersonPrefab);
             }
             else
@@ -106,6 +107,21 @@ namespace Elevator
         public int GetElevatorCapacity()
         {
             return ElevatorCapacity;
+        }
+
+        public IElevator GetElevator()
+        {
+            return _elevator;
+        }
+
+        public GameObject GetStage()
+        {
+            return _stage;
+        }
+
+        public PersonGO GetPersonGO()
+        {
+            return _personGo;
         }
     }
 }

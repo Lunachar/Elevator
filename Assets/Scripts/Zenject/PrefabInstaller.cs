@@ -11,6 +11,7 @@ namespace Elevator
         public ElevatorGO elevatorGo;
         public FloorGO floorGo;
         public PersonGO personGo;
+        public MenuAndButtons menuAndButtons;
 
         public EmptyObject emptyObject;
 
@@ -21,6 +22,7 @@ namespace Elevator
             BindFloorGO();
             BindPersonGO();
             BindEmptyObject();
+            Container.Bind<MenuAndButtons>().FromInstance(menuAndButtons).AsTransient();
         }
         
         private void BindBuildingGO()

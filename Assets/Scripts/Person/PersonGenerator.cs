@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
+using Elevator.Interfaces;
 using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
 using UnityEngine;
@@ -12,16 +13,18 @@ namespace Elevator
         private int _floorNumber;
         private int _totalFloors;
         private DiContainer _container;
+        private Elevator _elevator;
 
         [Inject]
         public void Construct(DiContainer container)
         {
             _container = container;
+            _elevator = container.Resolve<IElevator>() as Elevator;
         }
         public List<Person> GeneratePeople(int maxPeoplePerFloor, int floorNumber, int totalFloors)
         {
             _totalFloors = totalFloors;
-            Debug.Log($"||PersonGenerator max people: {maxPeoplePerFloor} floorNumber: {floorNumber} totalFloors: {totalFloors}");
+            Debug.Log($"|||) PersonGenerator max people: {maxPeoplePerFloor} floorNumber: {floorNumber} totalFloors: {totalFloors}");
             var generatedPeople = new List<Person>();
             var numberOfPeople = new RandomizerNumber<int>(new FieldOptionsInteger()
             {
@@ -34,9 +37,10 @@ namespace Elevator
                 _floorNumber = floorNumber;
                 //var person = new Person();
                 var person = _container.Instantiate<Person>();
-                person.Initialize();
+                person.Initialize(floorNumber);
                 //person.Construct(floorNumber, totalFloors);
                 generatedPeople.Add(person);
+                _elevator.Attach(person);
             }
             return generatedPeople;
         }

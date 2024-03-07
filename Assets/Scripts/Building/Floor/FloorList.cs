@@ -23,6 +23,7 @@ namespace Elevator
             for (int i = 1; i <= numberOfFloors; i++)
             {
                 floors.Add(floorFactory.Create(i,numberOfFloors, _boot.GetMaxPeoplePerFloor()));
+                Debug.LogWarning($"I) Floor Number {i}");
             }
 
             return floors;

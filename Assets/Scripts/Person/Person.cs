@@ -1,14 +1,13 @@
-
+using System;
 using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
-using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
 
 namespace Elevator
 {
-    public class Person
+    public class Person : IObserver
     {
         internal string Name { get; set; }
         internal string LastName { get; set; }
@@ -17,20 +16,26 @@ namespace Elevator
         internal int TargetFloor { get; set; }
         internal bool Completed { get; set; }
         
-        private Building _building;
-        private Boot _boot;
-        private int _totalFloors;
+        // private Building _building;
+       // private Boot _boot;
+        // private int _totalFloors;
+        //private PersonGO _personGo;
+        
 
         [Inject]
             private PersonGenerator _personGenerator;
 
         
-        public void Initialize()
+
+        
+        public void Initialize(int currentFloor)
         {
+            CurrentFloor = currentFloor;
+            //_personGo = _boot.GetPersonGO();
             //_totalFloors = _boot.GetNumberOfFloors();
            var personFirstNameGenerator = RandomizerFactory.GetRandomizer(new FieldOptionsFirstName());
            Name = personFirstNameGenerator.Generate();
-           Debug.Log($"|||NAME: {Name}");
+           Debug.Log($"||||) FloorNumver: {CurrentFloor}");
 
            var personLastNameGenerator = RandomizerFactory.GetRandomizer(new FieldOptionsLastName());
            LastName = personLastNameGenerator.Generate();
@@ -63,6 +68,21 @@ namespace Elevator
         public override string ToString()
         {
             return $"{Name} {LastName}, {Age}. Now on {CurrentFloor} floor, destination: {TargetFloor} floor.";
+        }
+
+        public int GetCurrentFloor()
+        {
+            return CurrentFloor;
+        }
+
+        public void UpdateCurrentFloor()
+        {
+            CurrentFloor = _personGenerator.GetCurrentFloor();
+        }
+
+        public void UpdateElevatorStatus(IObserverble observerble)
+        {
+            //_personGo.MoveToEl();
         }
     }
 }

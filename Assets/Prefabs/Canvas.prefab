@@ -631,4 +631,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonUp: {fileID: 3899480118275990413}
   buttonDown: {fileID: 2734979851691351659}
-  moveDuration: 1
+  ElevatorMovementCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.7493665
+      value: 0.98229486
+      inSlope: 1.5975835
+      outSlope: 1.5975835
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.86155397
+      outSlope: -0.86155397
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.05044695
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

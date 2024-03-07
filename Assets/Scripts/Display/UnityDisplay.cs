@@ -24,6 +24,7 @@ namespace Elevator.Display
 
          public GameObject button;
          public GameObject Menu;
+         
 
          
 
@@ -68,13 +69,20 @@ namespace Elevator.Display
 
                 var personsOnFloor = floor.GetPersonsListOnFloor();
                 int personOffset = 0;
+                int i_person = 1;
                 foreach (var person in personsOnFloor)
                 {
+                    Debug.LogWarning($"person # {i_person} floor # {person.GetCurrentFloor()} pname: {person.GetPersonName()}");
+                    
                     var personInstance = _container.InstantiatePrefabForComponent<PersonGO>(_personGo,
                         new Vector3((1f * personOffset) - 2, -2.73f + floorHeight, 0f),
                         Quaternion.identity,
                         floorInstance.transform);
-                    personInstance._text.text = person.GetPersonName();
+                    personInstance.SetCurrentFloor(person.GetCurrentFloor());
+                    personInstance.text.text = person.GetPersonName();
+                    Debug.LogWarning($"person floor # {person.CurrentFloor}");
+                    Debug.LogWarning($"person floor # {person.GetCurrentFloor()}");
+                    i_person += 1;
                     personOffset += 2;
                 }
 
@@ -86,10 +94,10 @@ namespace Elevator.Display
 
         private void VisualizeControlPanel()
         {
-            var buttonUp = Instantiate(button, new Vector3(5.5f, 2f), Quaternion.identity);
+            //var buttonUp = Instantiate(button, new Vector3(5.5f, 2f), Quaternion.identity);
             
-            var buttonDown = Instantiate(button, new Vector3(7.5f, 2f), Quaternion.identity);
-            var bButton = Instantiate(Menu);
+            //var buttonDown = Instantiate(button, new Vector3(7.5f, 2f), Quaternion.identity);
+            var menu = Instantiate(Menu);
             //bButton.GetComponent<Button>().clicked().Add;
             //BButton.OnCl
 
@@ -97,9 +105,9 @@ namespace Elevator.Display
         }
 
         
-        public void Update()
+        public void  UpdateElevatorStatus(IObserverble observerble)
         {
-            //throw new NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

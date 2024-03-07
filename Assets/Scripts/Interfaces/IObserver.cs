@@ -1,7 +1,7 @@
-﻿namespace Elevator.Interfaces
+﻿namespace Elevator
 {
     public interface IObserver
     {
-        // Update(global::Building.Elevator.Elevator elevator);
+        void UpdateElevatorStatus(IObserverble observerble);
     }
 }

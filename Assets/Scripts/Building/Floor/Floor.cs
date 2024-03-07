@@ -19,13 +19,13 @@ namespace Elevator
         private List<Person> _personList;
 
 
-        public Floor(int floorNumber, int totalFloors, int maxPeoplePerFloor, PersonGenerator personGenerator/*,
+        public Floor(int floorNumber, int totalFloors, int maxPeoplePerFloor, PersonGenerator personGenerator, List<Person> personList /*,
             DatabaseManager databaseManager*/)
         {
             Number = floorNumber;
             TotalFloors = totalFloors;
             _personGenerator = personGenerator;
-            _personList = _personGenerator.GeneratePeople(maxPeoplePerFloor, floorNumber, totalFloors);
+            _personList = personList; /*_personGenerator.GeneratePeople(maxPeoplePerFloor, floorNumber, totalFloors);*/
         }
 
         public void SetPersonsListOnFloor(List<Person> personsList)
