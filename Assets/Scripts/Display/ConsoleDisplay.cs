@@ -5,7 +5,10 @@ using Zenject;
 
 namespace Elevator.Display
 {
-    public class ConsoleDisplay /*: MonoBehaviour, IObserver*/
+    /// <summary>
+    /// Responsible for displaying floor details in the console.
+    /// </summary>
+    public class ConsoleDisplay
     {
         private Building _building;
 
@@ -26,15 +29,6 @@ namespace Elevator.Display
                     Debug.Log(person.ToString());
                 }
             }
-        }
-        private void Start()
-        {
-
-        }
-
-        public void Update()
-        {
-
         }
     }
 }

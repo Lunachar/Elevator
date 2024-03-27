@@ -18,6 +18,8 @@ namespace Elevator
 
         private Person _person;
         private Elevator _elevator;
+        private Transform _transformOfElevator;
+        private bool _isInElevator;
 
         [Inject]
         public void Construct(IElevator elevator, Person person)
@@ -30,9 +32,11 @@ namespace Elevator
         private void Start()
         {
             _elevator.Attach(this);
+            _transformOfElevator = GameObject.Find("Elevator(Clone)").transform;
             Debug.Log($"PCF:::::{_person.CurrentFloor}");
             Debug.Log($"ECF:::::{_elevator.CurrentFloor}");
         }
+
 
         public IEnumerator MoveToElevator()
         {
@@ -47,12 +51,13 @@ namespace Elevator
                 var easeValue = personMovementCurve.Evaluate(t);
                 gameObject.transform.position = Vector3.Lerp(initialPosition, targetPosition, easeValue);
                 elapsedTime += Time.deltaTime;
-                yield return new WaitForSeconds(0.1f);
+                yield return null;
             }
 
+            gameObject.transform.position = targetPosition;
+            _isInElevator = true;
+
             Debug.Log($"Person in Elevator");
-            isGoing = false;
-            _person.Completed = true;
         }
 
         public void SetCurrentFloor(int cfloor)
@@ -60,16 +65,19 @@ namespace Elevator
             personCurrentFloor = cfloor;
         }
 
-        public bool GetIsGoing()
+        private bool GetIsGoing()
         {
             return isGoing;
         }
 
         public void UpdateElevatorStatus(IObserverble observerble)
         {
-            if (personCurrentFloor == _elevator.CurrentFloor)
+            if (personCurrentFloor == _elevator.CurrentFloor && !_isInElevator)
             {
                 StartCoroutine(MoveToElevator());
+                gameObject.transform.SetParent(_transformOfElevator, true);
+                
+                isGoing = false;
             }
         }
     }

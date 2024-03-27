@@ -10,35 +10,30 @@ namespace Elevator
 {
     public class Boot : MonoBehaviour, IStartData
     {
-        private ConsoleDisplay _consoleDisplay;
-        private UnityDisplay _unityDisplay;
-        private Building _building;
-        private GameObject _stage;
+        // Components
+        private ConsoleDisplay _consoleDisplay; // For displaying information in the console
+        private UnityDisplay _unityDisplay; // For visualizing the elevator system in Unity
+        private Building _building; // Represents the building structure
+        private GameObject _stage; // Represents the main stage object
         
-        private IElevator _elevator;
-        private FloorFactory _floorFactory;
-        private FloorList _floorList;
-        private PersonGO _personGo;
+        private IElevator _elevator; // The elevator instance
+        private FloorFactory _floorFactory; // Factory for creating floors
+        private FloorList _floorList; // List of floors in the building
+        private PersonGO _personGo; // Represents the person game object
         
-        private DatabaseManager _databaseManager;
+        private DatabaseManager _databaseManager; // Manages the database
         
-        #region The only data input in the game
-
-        public int NumberOfFloors;
-        public int ElevatorCapacity;
-        public int MaxPeoplePerFloor;
+        // The only data input in the game
+        public int NumberOfFloors; // Total number of floors in the building
+        public int ElevatorCapacity; // Maximum capacity of the elevator
+        public int MaxPeoplePerFloor; // Maximum number of people per floor
         
-        #endregion
-
-
         [Inject]
         public void Construct(Building building, ConsoleDisplay consoleDisplay, UnityDisplay unityDisplay, IElevator elevator, FloorFactory floorFactory, DatabaseManager databaseManager, FloorList floorList, PersonGO personGo)
         {
-            Debug.Log("1: in Boot");
+            // Dependency injection to initialize components
             _consoleDisplay = consoleDisplay;
-            Debug.Log("2: in Boot");
             _unityDisplay = unityDisplay;
-            Debug.Log("3: in Boot");
             _building = building;
             _elevator = elevator;
             _floorFactory = floorFactory;
@@ -46,17 +41,23 @@ namespace Elevator
             _floorList = floorList;
             _personGo = personGo;
         }
+
         private void Start()
         {
-            Debug.Log($"constr 1");
-            
+            // Initialization tasks when the script instance is being loaded
             if (_building != null && _consoleDisplay != null)
             {
-               ShowFloorDetails();
+                // Show floor details in the console
+                ShowFloorDetails();
+                
+                // Rotate the database
                 RotateDatabase();
+                
+                // Save persons to the database
                 SavePersonsToDB();
+                
+                // Find the main stage object
                 _stage = GameObject.Find("STAGE");
-                //_unityDisplay.VisualizeBuilding(BuildingPrefab, ElevatorPrefab, FloorPrefab, PersonPrefab);
             }
             else
             {
@@ -66,23 +67,13 @@ namespace Elevator
 
         private void ShowFloorDetails()
         {
+            // Helper method to display floor details in the console
             _consoleDisplay.ShowFloorDetailsInConsole();
         }
         
-        // public List<Floor> GenerateFloors()/*(int numberOfFloors, FloorFactory floorFactory)*/
-        // {
-        //     List<Floor> floors = new List<Floor>();
-        //     Debug.Log("here2");
-        //     for (int i = 1; i <= NumberOfFloors; i++)
-        //     {
-        //         floors.Add(_floorFactory.Create(i, NumberOfFloors, MaxPeoplePerFloor));
-        //     }
-        //
-        //     return floors;
-        // }
-
         private void SavePersonsToDB()
         {
+            // Helper method to save persons to the database
             foreach (var floor in _building._floorList.GetFloors())
             {
                 _databaseManager.SavePeopleToDB(floor.GetPersonsListOnFloor());
@@ -91,9 +82,11 @@ namespace Elevator
 
         private void RotateDatabase()
         {
+            // Helper method to rotate the database
             _databaseManager.RotateDatabase();
         }
 
+        // Accessor methods
         public int GetMaxPeoplePerFloor()
         {
             return MaxPeoplePerFloor;

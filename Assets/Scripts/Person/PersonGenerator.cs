@@ -21,6 +21,14 @@ namespace Elevator
             _container = container;
             _elevator = container.Resolve<IElevator>() as Elevator;
         }
+
+        /// <summary>
+        /// Generates people for a specific floor.
+        /// </summary>
+        /// <param name="maxPeoplePerFloor">The maximum number of people per floor.</param>
+        /// <param name="floorNumber">The number of the floor for which people are generated.</param>
+        /// <param name="totalFloors">The total number of floors in the building.</param>
+        /// <returns>A list of generated people.</returns>
         public List<Person> GeneratePeople(int maxPeoplePerFloor, int floorNumber, int totalFloors)
         {
             _totalFloors = totalFloors;
@@ -35,21 +43,27 @@ namespace Elevator
             for (int i = 0; i < numberOfPeople; i++)
             {
                 _floorNumber = floorNumber;
-                //var person = new Person();
                 var person = _container.Instantiate<Person>();
                 person.Initialize(floorNumber);
-                //person.Construct(floorNumber, totalFloors);
                 generatedPeople.Add(person);
                 _elevator.Attach(person);
             }
             return generatedPeople;
         }
 
+        /// <summary>
+        /// Gets the total number of floors in the building.
+        /// </summary>
+        /// <returns>The total number of floors.</returns>
         public int GetTotalFloors()
         {
             return _totalFloors;
         }
 
+        /// <summary>
+        /// Gets the current floor number.
+        /// </summary>
+        /// <returns>The current floor number.</returns>
         public int GetCurrentFloor()
         {
             return _floorNumber;

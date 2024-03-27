@@ -1,15 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Elevator;
-using Elevator.Interfaces;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Zenject;
 
 namespace Elevator
 {
+    /// <summary>
+    /// Manages the UI buttons for controlling the elevator.
+    /// </summary>
     public class MenuAndButtons : MonoBehaviour
     {
         public Button buttonUp;
@@ -28,15 +28,17 @@ namespace Elevator
         [Inject]
         public void Initialize(DiContainer diContainer, PersonGO personGo)
         {
-            Debug.LogWarning($"INITIALIZE!!!");
+            // Inject dependencies
             _diContainer = diContainer;
             _personGo = personGo;
-            //_check = _personGo.isGoing;
+            // Check if PersonGO is going
+            _personGo = personGo;
             Debug.LogWarning($"{_personGo.isGoing}");
         }
-        void Start()
+
+        private void Start()
         {
-            _check = GameObject.FindObjectOfType<PersonGO>().isGoing;
+            // Find references and set up button listeners
             _elevator = FindObjectOfType<Boot>().GetElevator() as Elevator;
             _stage = GameObject.Find("STAGE");
             if (_elevator != null)
@@ -48,8 +50,6 @@ namespace Elevator
             buttonDown.onClick.AddListener(MoveElevatorDown);
         }
 
-        
-
         private void MoveElevatorUp()
         {
             MoveToTargetFloor(_elevator.CurrentFloor + 1);
@@ -60,12 +60,19 @@ namespace Elevator
             MoveToTargetFloor(_elevator.CurrentFloor - 1);
         }
         
+        /// <summary>
+        /// Moves the elevator to the target floor.
+        /// </summary>
+        /// <param name="floorNumber">The target floor number.</param>
         public void MoveToTargetFloor(int floorNumber)
         {
+            // Check if the elevator is initialized
             if (_elevator != null)
             {
-                if (!_check)
+                // Check if the person is not moving
+                if (!_personGo.isGoing)
                 {
+                    // Check if the elevator is not moving and the target floor is different
                     if (!_elevator.Moving && _elevator.CurrentFloor != floorNumber)
                     {
                         StartCoroutine(_elevator.ElevatorMove(floorNumber, _stage, ElevatorMovementCurve));
@@ -73,6 +80,7 @@ namespace Elevator
                 }
                 else
                 {
+                    // Log a message if the person is currently moving
                     Debug.Log($"Person is moving");
                 }
             }

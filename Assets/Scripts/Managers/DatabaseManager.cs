@@ -14,6 +14,10 @@ namespace Elevator.Managers
             _dbSetup = dbSetup;
         }
 
+        /// <summary>
+        /// Saves a list of people to the database.
+        /// </summary>
+        /// <param name="personsList">The list of people to save.</param>
         public void SavePeopleToDB(List<Person> personsList)
         {
             foreach (var person in personsList)
@@ -21,6 +25,10 @@ namespace Elevator.Managers
                 _dbSetup.InsertPersonData(person);
             }
         }
+
+        /// <summary>
+        /// Rotates the database by moving the current database file to a backup file.
+        /// </summary>
         public void RotateDatabase()
         {
             if (File.Exists(_dbSetup.currDbName))

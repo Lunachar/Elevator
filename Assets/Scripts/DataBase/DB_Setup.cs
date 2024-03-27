@@ -10,14 +10,6 @@ public class DB_Setup
     internal string currDbName = "Elevator_curr.db";
     internal string prevDbName = "Elevator_prev.db";
     private Person _person;
-
-    // [Inject]
-    // public void Construct()
-    // {
-    //     CreateDB(currDbName)
-    // }
-
-
     
     public void CreateDB(string dbName)
     {
