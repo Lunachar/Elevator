@@ -16,6 +16,7 @@ namespace Elevator
         public Button buttonUp;
         public Button buttonDown;
         public AnimationCurve ElevatorMovementCurve;
+        public AnimationCurve ElevatorBoundCurve;
 
         private Boot _boot;
         private Elevator _elevator;
@@ -35,7 +36,7 @@ namespace Elevator
             _personGo = personGo;
             // Check if PersonGO is going
             _personGo = personGo;
-            Debug.LogWarning($"{_personGo.isGoing}");
+            //Debug.LogWarning($"{_personGo.isGoing}");
             _unityDisplay = unityDisplay;
         }
 
@@ -44,9 +45,25 @@ namespace Elevator
             // Find references and set up button listeners
             _elevator = FindObjectOfType<Boot>().GetElevator() as Elevator;
             _stage = GameObject.Find("STAGE");
+            
             Debug.LogError($"BOOL: {AnyPersonOnFloorMoving(_elevator.CurrentFloor)}");
+            
             buttonUp.onClick.AddListener(MoveElevatorUp);
             buttonDown.onClick.AddListener(MoveElevatorDown);
+
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                MoveElevatorUp();
+            }
+
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                MoveElevatorDown();
+            }
         }
 
         private void MoveElevatorUp()
@@ -69,7 +86,6 @@ namespace Elevator
                     return true; // At least one PersonGO is moving
                 }
             }
-
             return false; // No PersonGO is moving
         }
         
@@ -90,6 +106,11 @@ namespace Elevator
                     if (!_elevator.Moving && _elevator.CurrentFloor != floorNumber)
                     {
                         StartCoroutine(_elevator.ElevatorMove(floorNumber, _stage, ElevatorMovementCurve));
+                    }
+
+                    if (!_elevator.Moving && (floorNumber > _boot.GetNumberOfFloors() || floorNumber < 1))
+                    {
+                        StartCoroutine(_elevator.ElevatorMove(floorNumber, _stage, ElevatorBoundCurve));
                     }
                 }
                 else

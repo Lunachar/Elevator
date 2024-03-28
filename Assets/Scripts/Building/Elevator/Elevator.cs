@@ -104,6 +104,11 @@ namespace Elevator
                 targetPosition = initialPosition + new Vector3(0f, 6f * floorDifference, 0f);
                 CurrentFloor -= floorDifference;
             }
+            else if ((CurrentFloor == 1 && floorNumber < 1) || (CurrentFloor == _boot.GetNumberOfFloors() && floorNumber > _boot.GetNumberOfFloors()))
+            {
+                targetPosition = initialPosition + new Vector3(0f, 0.2f, 0f);
+            }
+            
             else
             {
                 // Elevator cannot move to the specified floor
