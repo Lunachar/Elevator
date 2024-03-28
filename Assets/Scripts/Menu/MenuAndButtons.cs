@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Elevator.Display;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -22,11 +23,12 @@ namespace Elevator
         private bool _check;
         
         private DiContainer _diContainer;
+        private UnityDisplay _unityDisplay;
 
         private PersonGO _personGo;
         
         [Inject]
-        public void Initialize(DiContainer diContainer, PersonGO personGo)
+        public void Initialize(DiContainer diContainer, PersonGO personGo, UnityDisplay unityDisplay)
         {
             // Inject dependencies
             _diContainer = diContainer;
@@ -34,6 +36,7 @@ namespace Elevator
             // Check if PersonGO is going
             _personGo = personGo;
             Debug.LogWarning($"{_personGo.isGoing}");
+            _unityDisplay = unityDisplay;
         }
 
         private void Start()
@@ -41,11 +44,7 @@ namespace Elevator
             // Find references and set up button listeners
             _elevator = FindObjectOfType<Boot>().GetElevator() as Elevator;
             _stage = GameObject.Find("STAGE");
-            if (_elevator != null)
-            {
-                Debug.Log($"IS ELEVATOR: {_elevator.Capacity}");
-            }
-
+            Debug.LogError($"BOOL: {AnyPersonOnFloorMoving(_elevator.CurrentFloor)}");
             buttonUp.onClick.AddListener(MoveElevatorUp);
             buttonDown.onClick.AddListener(MoveElevatorDown);
         }
@@ -59,6 +58,20 @@ namespace Elevator
         {
             MoveToTargetFloor(_elevator.CurrentFloor - 1);
         }
+
+        private bool AnyPersonOnFloorMoving(int floorNumber)
+        {
+            PersonGO[] allPersons = GameObject.FindObjectsOfType<PersonGO>();
+            foreach (PersonGO person in allPersons)
+            {
+                if (person.personCurrentFloor == floorNumber && person.isGoing)
+                {
+                    return true; // At least one PersonGO is moving
+                }
+            }
+
+            return false; // No PersonGO is moving
+        }
         
         /// <summary>
         /// Moves the elevator to the target floor.
@@ -69,8 +82,9 @@ namespace Elevator
             // Check if the elevator is initialized
             if (_elevator != null)
             {
+                Debug.LogError($"BOOL: {AnyPersonOnFloorMoving(_elevator.CurrentFloor)}");
                 // Check if the person is not moving
-                if (!_personGo.isGoing)
+                if (!AnyPersonOnFloorMoving(_elevator.CurrentFloor))
                 {
                     // Check if the elevator is not moving and the target floor is different
                     if (!_elevator.Moving && _elevator.CurrentFloor != floorNumber)

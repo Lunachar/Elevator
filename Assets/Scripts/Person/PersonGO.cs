@@ -58,16 +58,13 @@ namespace Elevator
             _isInElevator = true;
 
             Debug.Log($"Person in Elevator");
+            
+            isGoing = false;
         }
 
         public void SetCurrentFloor(int cfloor)
         {
             personCurrentFloor = cfloor;
-        }
-
-        private bool GetIsGoing()
-        {
-            return isGoing;
         }
 
         public void UpdateElevatorStatus(IObserverble observerble)
@@ -77,7 +74,6 @@ namespace Elevator
                 StartCoroutine(MoveToElevator());
                 gameObject.transform.SetParent(_transformOfElevator, true);
                 
-                isGoing = false;
             }
         }
     }

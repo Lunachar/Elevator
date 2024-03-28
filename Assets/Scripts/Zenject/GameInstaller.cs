@@ -19,7 +19,7 @@ namespace Elevator
             Container.BindInstance(bootInstance).AsSingle();
             Container.BindInstance(unityDisplayInstance).AsSingle();
             Container.BindInstance(menuAndButtons).AsSingle();
-            menuAndButtons.Initialize(Container, personGo);
+            menuAndButtons.Initialize(Container, personGo, unityDisplayInstance);
             Container.Bind<Building>().AsSingle();
             Container.Bind<FloorFactory>().AsSingle();
             Container.Bind<Floor>().AsTransient();

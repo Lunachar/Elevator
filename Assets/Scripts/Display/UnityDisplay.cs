@@ -24,6 +24,7 @@ namespace Elevator.Display
         // Reference to the menu prefab
         public GameObject Menu;
 
+
         // Constructor for dependency injection
         [Inject]
         public void Construct(Building building, DiContainer container, FloorGO floorGo, ElevatorGO elevatorGo, PersonGO personGo, EmptyObject emptyObject)
