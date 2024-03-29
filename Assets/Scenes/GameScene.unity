@@ -152,9 +152,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d611cb1330c42e3bba69dfd134cef5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NumberOfFloors: 3
+  NumberOfFloors: 7
   ElevatorCapacity: 5
-  MaxPeoplePerFloor: 3
+  MaxPeoplePerFloor: 4
 --- !u!4 &453129704
 Transform:
   m_ObjectHideFlags: 0
@@ -415,7 +415,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f357f57ba9be8d3448ac1f314f08faf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 2578563913304479767, guid: 35d7a159932ede54fa44a6d092a6ed2c, type: 3}
   Menu: {fileID: 8178529692033700851, guid: 207818adf0893264d9bc554a58abdbda, type: 3}
 --- !u!4 &740895714
 Transform:
