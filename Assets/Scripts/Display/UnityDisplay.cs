@@ -84,7 +84,10 @@ namespace Elevator.Display
                         new Vector3((1f * personOffset) - 2, -2.73f + floorHeight, 0f),
                         Quaternion.identity,
                         floorInstance.transform);
+                    
                     personInstance.SetCurrentFloor(person.GetCurrentFloor());
+                    personInstance.SetTargetFloor(person.GetTargetFloor());
+                    
                     personInstance.text.text = person.GetPersonName();
                     personOffset += 2; // Increase offset for next person
                 }

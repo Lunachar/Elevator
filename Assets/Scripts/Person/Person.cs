@@ -78,6 +78,8 @@ namespace Elevator
         {
             return CurrentFloor;
         }
+        
+        public int GetTargetFloor(){ return TargetFloor;}
 
         /// <summary>
         /// Updates the current floor of the person.

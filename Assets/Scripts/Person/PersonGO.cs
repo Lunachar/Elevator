@@ -14,6 +14,7 @@ namespace Elevator
         public float moveDuration = 1f;
         public TMP_Text text;
         public int personCurrentFloor;
+        public int personTargetFloor;
         public bool isGoing;
 
         private Person _person;
@@ -46,25 +47,59 @@ namespace Elevator
             Vector3 targetPosition = initialPosition + new Vector3(-5f, 0f, 0f);
             while (elapsedTime < moveDuration)
             {
-                Debug.Log($"in move_________________");
                 float t = elapsedTime / moveDuration;
                 var easeValue = personMovementCurve.Evaluate(t);
                 gameObject.transform.position = Vector3.Lerp(initialPosition, targetPosition, easeValue);
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
-
             gameObject.transform.position = targetPosition;
             _isInElevator = true;
 
             Debug.Log($"Person in Elevator");
-            
+            _elevator.AddPassengerToElevator(this);
             isGoing = false;
         }
 
+        public IEnumerator MoveToFloor()
+        {
+            isGoing = true;
+            float elapsedTime = 0f;
+            Vector3 initialPosition = gameObject.transform.position;
+            Vector3 targetPosition = initialPosition + new Vector3(5f, 0f, 0f);
+            while (elapsedTime < moveDuration)
+            {
+                float t = elapsedTime / moveDuration;
+                var easeValue = personMovementCurve.Evaluate(t);
+                gameObject.transform.position = Vector3.Lerp(initialPosition, targetPosition, easeValue);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            gameObject.transform.position = targetPosition;
+            _isInElevator = true;
+
+            Debug.Log($"Person on the floor");
+            isGoing = false;
+        }
+
+        public void DissapearAfterDelay()
+        {
+            Destroy(gameObject, 1f);
+        }
+
+        public void ExitElevator()
+        {
+            StartCoroutine(MoveToFloor());
+            DissapearAfterDelay();
+        }
         public void SetCurrentFloor(int cfloor)
         {
             personCurrentFloor = cfloor;
+        }
+
+        public void SetTargetFloor(int tfloor)
+        {
+            personTargetFloor = tfloor;
         }
 
         public void UpdateElevatorStatus(IObserverble observerble)

@@ -21,6 +21,9 @@ namespace Elevator
         // Maximum capacity of the elevator
         public int Capacity { get; set; }
         
+        private List<PersonGO> _passengersInsideElevator = new List<PersonGO>();
+        private List<PersonGO> _unloadPassengersNow = new List<PersonGO>();
+        
         // Current number of people inside the elevator
         private int _filling;
 
@@ -74,6 +77,42 @@ namespace Elevator
             foreach (var observer in _observers)
             {
                 observer.UpdateElevatorStatus(this);
+            }
+        }
+
+        public void AddPassengerToElevator(PersonGO passenger)
+        {
+            _passengersInsideElevator.Add(passenger);
+        }
+
+        private void PassengersToUnloadNow()
+        {
+            _unloadPassengersNow.Clear();
+            foreach (var passenger in _passengersInsideElevator)
+            {
+                if (passenger.personTargetFloor == CurrentFloor)
+                {
+                    _unloadPassengersNow.Add(passenger);
+                    Debug.Log($"Passenger {passenger.personTargetFloor} has arrived");
+                }
+            }
+        }
+
+        private void UnloadPassengers()
+        {
+            foreach (var passenger in _unloadPassengersNow)
+            {
+                ExitElevator();
+                _passengersInsideElevator.Remove(passenger);
+                Debug.Log($"Passenger {passenger.personTargetFloor} has been unloaded");
+            }
+        }
+
+        private void ExitElevator()
+        {
+            foreach (PersonGO person in _unloadPassengersNow)
+            {
+                person.ExitElevator();
             }
         }
 
@@ -133,6 +172,10 @@ namespace Elevator
 
             // Set the stage position to the target position
             stage.transform.position = targetPosition;
+            
+            PassengersToUnloadNow();
+            UnloadPassengers();
+            
             // Set moving flag to false
             Moving = false;
 
