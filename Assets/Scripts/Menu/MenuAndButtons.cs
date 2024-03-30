@@ -27,6 +27,7 @@ namespace Elevator
         private UnityDisplay _unityDisplay;
 
         private PersonGO _personGo;
+        private List<PersonGO> _people;
         
         [Inject]
         public void Initialize(DiContainer diContainer, PersonGO personGo, UnityDisplay unityDisplay)
@@ -88,6 +89,19 @@ namespace Elevator
             }
             return false; // No PersonGO is moving
         }
+        private bool AnyPersonFromElevatorMoving()
+        {
+            _people = _elevator.GetPassengersInsideElevator();
+            
+            foreach (PersonGO person in _people)
+            {
+                if (person.isGoing)
+                {
+                    return true; // At least one PersonGO is moving
+                }
+            }
+            return false; // No PersonGO is moving
+        }
         
         /// <summary>
         /// Moves the elevator to the target floor.
@@ -100,7 +114,7 @@ namespace Elevator
             {
                 Debug.LogError($"BOOL: {AnyPersonOnFloorMoving(_elevator.CurrentFloor)}");
                 // Check if the person is not moving
-                if (!AnyPersonOnFloorMoving(_elevator.CurrentFloor))
+                if (!AnyPersonOnFloorMoving(_elevator.CurrentFloor) && !AnyPersonFromElevatorMoving())
                 {
                     // Check if the elevator is not moving and the target floor is different
                     if (!_elevator.Moving && _elevator.CurrentFloor != floorNumber)

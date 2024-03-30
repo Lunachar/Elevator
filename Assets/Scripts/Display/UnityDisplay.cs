@@ -88,6 +88,8 @@ namespace Elevator.Display
                     personInstance.SetCurrentFloor(person.GetCurrentFloor());
                     personInstance.SetTargetFloor(person.GetTargetFloor());
                     
+                    //personInstance.SetFloor(floorInstance);
+                    
                     personInstance.text.text = person.GetPersonName();
                     personOffset += 2; // Increase offset for next person
                 }

@@ -21,6 +21,7 @@ namespace Elevator
         private Elevator _elevator;
         private Transform _transformOfElevator;
         private bool _isInElevator;
+        private FloorGO _floorGO;
 
         [Inject]
         public void Construct(IElevator elevator, Person person)
@@ -66,7 +67,14 @@ namespace Elevator
             isGoing = true;
             float elapsedTime = 0f;
             Vector3 initialPosition = gameObject.transform.position;
-            Vector3 targetPosition = initialPosition + new Vector3(5f, 0f, 0f);
+            int currentFloor = _elevator.CurrentFloor;
+            GameObject floorGO = GameObject.Find("Floor " + currentFloor);
+            Debug.Log($"++++{floorGO.name}");
+            _floorGO = floorGO.GetComponent<FloorGO>();
+            
+
+            Vector3 targetPosition = _floorGO.ExitPoint.position;
+                
             while (elapsedTime < moveDuration)
             {
                 float t = elapsedTime / moveDuration;
@@ -100,6 +108,11 @@ namespace Elevator
         public void SetTargetFloor(int tfloor)
         {
             personTargetFloor = tfloor;
+        }
+
+        public void SetFloor(FloorGO floor)
+        {
+            _floorGO = floor;
         }
 
         public void UpdateElevatorStatus(IObserverble observerble)

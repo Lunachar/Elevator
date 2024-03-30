@@ -116,6 +116,11 @@ namespace Elevator
             }
         }
 
+        public List<PersonGO> GetPassengersInsideElevator()
+        {
+            return _passengersInsideElevator;
+        }
+
         /// <summary>
         /// Initiates the movement of the elevator to a target floor.
         /// </summary>
