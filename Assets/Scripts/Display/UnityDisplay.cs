@@ -72,6 +72,7 @@ namespace Elevator.Display
                     Quaternion.identity,
                     stage.transform);
                 floorInstance.name = $"Floor {floor.Number}";
+floorInstance.GetComponentInChildren<FloorGO>().floorNumber = floor.Number;
                 floorInstance.GetComponentInChildren<TMP_Text>().text = $"Floor {floor.Number}";
 
                 // Iterate through each person on the floor
