@@ -8,5 +8,6 @@ namespace Elevator
     {
         public TMP_Text text;
         public Transform ExitPoint;
+public int floorNumber;
     }
 }
