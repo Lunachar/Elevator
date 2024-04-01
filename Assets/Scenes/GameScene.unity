@@ -254,37 +254,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &577243391
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 577243392}
-  m_Layer: 0
-  m_Name: tranformPosition
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &577243392
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 577243391}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.55, y: -4.77, z: -0.08073384}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &649045745
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,7 +335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bootInstance: {fileID: 453129703}
   unityDisplayInstance: {fileID: 740895713}
-  menuAndButtons: {fileID: 2545547359005265233, guid: 207818adf0893264d9bc554a58abdbda, type: 3}
+  menuButtonsUpAndDown: {fileID: 2545547359005265233, guid: c8130f8e788bd99499450ac38cf782d1, type: 3}
   personGo: {fileID: 8880379102019744520, guid: d0f3b627628c41f42ad6b0dddc14d9d1, type: 3}
 --- !u!114 &649045749
 MonoBehaviour:
@@ -384,7 +353,7 @@ MonoBehaviour:
   elevatorGo: {fileID: -2200450090609305488, guid: 7fd8b9b33acf9a843a9ca30ed529e934, type: 3}
   floorGo: {fileID: 2107450391057364067, guid: 5784e07a38007a64e8af2ecb6664b3b0, type: 3}
   personGo: {fileID: 8880379102019744520, guid: d0f3b627628c41f42ad6b0dddc14d9d1, type: 3}
-  menuAndButtons: {fileID: 2545547359005265233, guid: 207818adf0893264d9bc554a58abdbda, type: 3}
+  menuButtonsUpAndDown: {fileID: 2545547359005265233, guid: c8130f8e788bd99499450ac38cf782d1, type: 3}
   emptyObject: {fileID: 6458530009686655370, guid: 37f2c13e9fab24d4e86040c7a1e9117f, type: 3}
 --- !u!1 &740895712
 GameObject:
@@ -415,7 +384,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f357f57ba9be8d3448ac1f314f08faf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Menu: {fileID: 8178529692033700851, guid: 207818adf0893264d9bc554a58abdbda, type: 3}
+  UpAndDownButtonsMenu: {fileID: 8178529692033700851, guid: c8130f8e788bd99499450ac38cf782d1, type: 3}
+  FloorButtonsMenu: {fileID: 8178529692033700851, guid: 207818adf0893264d9bc554a58abdbda, type: 3}
 --- !u!4 &740895714
 Transform:
   m_ObjectHideFlags: 0
@@ -429,7 +399,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1681997487
 GameObject:
@@ -497,5 +467,5 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

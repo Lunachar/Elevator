@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Elevator.Interfaces;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Elevator.Display
@@ -21,8 +22,9 @@ namespace Elevator.Display
         private PersonGO _personGo;
         private EmptyObject _emptyObject;
 
-        // Reference to the menu prefab
-        public GameObject Menu;
+        // References to the menu prefab
+        public GameObject UpAndDownButtonsMenu;
+        public GameObject FloorButtonsMenu;
 
 
         // Constructor for dependency injection
@@ -105,7 +107,8 @@ namespace Elevator.Display
         private void VisualizeControlPanel()
         {
             // Instantiate the menu prefab
-            Instantiate(Menu);
+            Instantiate(UpAndDownButtonsMenu);
+            Instantiate(FloorButtonsMenu);
         }
 
         // Method to handle elevator status updates

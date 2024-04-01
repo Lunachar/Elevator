@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Elevator
@@ -11,7 +12,7 @@ namespace Elevator
         public ElevatorGO elevatorGo;
         public FloorGO floorGo;
         public PersonGO personGo;
-        public MenuAndButtons menuAndButtons;
+        [FormerlySerializedAs("upAndDownButtonsMenu")] [FormerlySerializedAs("menuAndButtons")] public MenuButtonsUpAndDown menuButtonsUpAndDown;
 
         public EmptyObject emptyObject;
 
@@ -22,7 +23,7 @@ namespace Elevator
             BindFloorGO();
             BindPersonGO();
             BindEmptyObject();
-            Container.Bind<MenuAndButtons>().FromInstance(menuAndButtons).AsTransient();
+            Container.Bind<MenuButtonsUpAndDown>().FromInstance(menuButtonsUpAndDown).AsTransient();
         }
         
         private void BindBuildingGO()

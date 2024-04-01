@@ -11,7 +11,7 @@ namespace Elevator
     /// <summary>
     /// Manages the UI buttons for controlling the elevator.
     /// </summary>
-    public class MenuAndButtons : MonoBehaviour
+    public class MenuButtonsUpAndDown : MonoBehaviour
     {
         public Button buttonUp;
         public Button buttonDown;
