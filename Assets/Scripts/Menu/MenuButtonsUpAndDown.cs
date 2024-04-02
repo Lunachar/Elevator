@@ -107,9 +107,9 @@ namespace Elevator
         /// Moves the elevator to the target floor.
         /// </summary>
         /// <param name="floorNumber">The target floor number.</param>
-        public void MoveToTargetFloor(int floorNumber)
+        public void MoveToTargetFloor(int floorNumber, Elevator elevator = _elevator)
         {
-            _elevator = FindObjectOfType<Boot>().GetElevator() as Elevator;
+            //_elevator = FindObjectOfType<Boot>().GetElevator() as Elevator;
             // Check if the elevator is initialized
             if (_elevator != null)
             {
