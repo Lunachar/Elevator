@@ -1,14 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace Elevator {
 public class MenuButtonFloors : MonoBehaviour
 {
-    public GameObject ButtonPrefab;
+    public MenuButtonsUpAndDown MenuButtonsUpAndDown;
+    public GameObject ButtonPrefab; 
+    private TMP_Text _text;
     
-    private Boot _boot;
+    private Boot _boot; 
+
+    private int _rows; // number of rows
 
     // [Inject]
     // public void Construct(Boot boot)
@@ -16,11 +22,11 @@ public class MenuButtonFloors : MonoBehaviour
     //     _boot = boot;
     // }
     
-    void Start()
+    
+    void Start() 
     {
         _boot = GameObject.FindObjectOfType<Boot>().GetComponent<Boot>();
-        buttonsInitialize();
-
+        ButtonsInitialize();
     }
 
     
@@ -29,21 +35,42 @@ public class MenuButtonFloors : MonoBehaviour
 
     }
 
-    private void buttonsInitialize()
+    private void ButtonsInitialize() 
     {
-        float buttonStartPositionX = 0f; 
-        float buttonStartPositionY = 0f;
+        float buttonStartPositionX = Screen.width - 180f;
+        float buttonStartPositionY = Screen.height - 50f;
+        int buttonsInRow = 0; 
+        int maxButtonsInRow = 3; 
 
-        if (_boot != null)
+        if (_boot != null) 
         {
-            for (int button = 0; button < _boot.GetNumberOfFloors(); button++) // 0 to _boot.GetNumberOfFloors()
+            for (int floorButton = 0; floorButton < _boot.GetNumberOfFloors(); floorButton++) // 0 to _boot.GetNumberOfFloors()
             {
                 GameObject buttonObject = Instantiate(ButtonPrefab, new Vector3(buttonStartPositionX, buttonStartPositionY), Quaternion.identity, transform);
-                buttonObject.name = "Floor " + button;
-                
-               
+                buttonObject.name = $"Floor {floorButton + 1}"; // set name of button
+                buttonsInRow++;
+                TMP_Text textMeshPro = buttonObject.GetComponentInChildren<TMP_Text>(); 
+                if (textMeshPro!= null){ textMeshPro.text = $"{floorButton + 1}"; } // set floor number on button
 
-                buttonStartPositionX += 1f;
+                Button buttonComponent = buttonObject.GetComponent<Button>(); // get button component
+                if (buttonComponent != null) 
+                {
+                    int floorNumber = floorButton + 1; 
+                    buttonComponent.onClick.AddListener(() => MenuButtonsUpAndDown.MoveToTargetFloor(floorNumber)); // add listener to button
+                }
+                
+
+                if (buttonsInRow > maxButtonsInRow)
+                {
+                    buttonStartPositionX = Screen.width - 180f;  // reset x position
+                    buttonStartPositionY -= 70f; // move y position
+                    buttonsInRow = 1;           // reset number of buttons in row
+                }
+
+                else
+                {
+                    buttonStartPositionX += 50f; // move x position
+                }
             }
         }
         else

@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Interface
   layers:
   - Default
   - TransparentFX
@@ -40,4 +41,19 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 1558121687
+    locked: 0
+  - name: Building
+    uniqueID: 749682771
+    locked: 0
+  - name: Elevator
+    uniqueID: 3353198215
+    locked: 0
+  - name: Persons
+    uniqueID: 932577255
+    locked: 0
+  - name: Interface
+    uniqueID: 1177748607
     locked: 0
