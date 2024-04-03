@@ -10,18 +10,18 @@ namespace Elevator
 {
     public class PersonGO : MonoBehaviour, IObserver
     {
-        public AnimationCurve personMovementCurve;
-        public float moveDuration = 1f;
-        public TMP_Text text;
-        public int personCurrentFloor;
-        public int personTargetFloor;
-        public bool isGoing;
+        public AnimationCurve personMovementCurve;      // AnimationCurve for person movement
+        public float moveDuration = 1f;                 // How long it takes to move
+        public TMP_Text text;                           // Text to display person name
+        public int personCurrentFloor;                  // Current floor of person
+        public int personTargetFloor;                   // Target floor of person
+        public bool isGoing;                            // Whether person is going
 
-        private Person _person;
-        private Elevator _elevator;
-        private Transform _transformOfElevator;
-        private bool _isInElevator;
-        private FloorGO _floorGO;
+        private Person _person;                         // Person script
+        private Elevator _elevator;                     // Elevator script
+        private Transform _transformOfElevator;         // Elevator transform
+        private bool _isInElevator;                     // Whether person is in elevator
+        private FloorGO _floorGO;                       // Floor Game Object
 
         [Inject]
         public void Construct(IElevator elevator, Person person)

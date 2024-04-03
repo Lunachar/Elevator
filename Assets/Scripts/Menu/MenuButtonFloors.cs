@@ -26,6 +26,7 @@ public class MenuButtonFloors : MonoBehaviour
     void Start() 
     {
         _boot = GameObject.FindObjectOfType<Boot>().GetComponent<Boot>();
+        MenuButtonsUpAndDown = GameObject.FindObjectOfType<MenuButtonsUpAndDown>();
         ButtonsInitialize();
     }
 

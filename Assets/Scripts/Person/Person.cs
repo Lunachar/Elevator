@@ -8,12 +8,12 @@ namespace Elevator
 {
     public class Person : IObserver
     {
-        internal string Name { get; set; }
-        internal string LastName { get; set; }
-        internal int Age { get; set; }
-        internal int CurrentFloor { get; set; }
-        internal int TargetFloor { get; set; }
-        internal bool Completed { get; set; }
+        internal string Name { get; set; }          // Name of the person
+        internal string LastName { get; set; }      // LastName of the person
+        internal int Age { get; set; }              // Age of the person
+        internal int CurrentFloor { get; set; }     // The current floor of the person
+        internal int TargetFloor { get; set; }      // The target floor of the person
+        internal bool Completed { get; set; }       // Is the person completed his transition between floors
         
         [Inject]
         private PersonGenerator _personGenerator;

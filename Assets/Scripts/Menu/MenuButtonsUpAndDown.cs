@@ -13,32 +13,30 @@ namespace Elevator
     /// </summary>
     public class MenuButtonsUpAndDown : MonoBehaviour
     {
-        public Button buttonUp;
-        public Button buttonDown;
-        public AnimationCurve ElevatorMovementCurve;
-        public AnimationCurve ElevatorBoundCurve;
+        public Button buttonUp;                         // The button that moves the elevator up.
+        public Button buttonDown;                       // The button that moves the elevator down.
+        public AnimationCurve ElevatorMovementCurve;    // The curve for the elevator movement.
+        public AnimationCurve ElevatorBoundCurve;       // The curve for the elevator boundary.
 
-        private Boot _boot;
-        private Elevator _elevator;
-        private GameObject _stage;
-        private bool _check;
+        private Boot _boot;                             // Reference to Boot.
+        private Elevator _elevator;                     // Reference to Elevator.
+        private GameObject _stage;                      // Reference to Stage (all floors in one parent game object).
+        //private bool _check;                          // Whether or not the elevator is moving.
         
-        private DiContainer _diContainer;
-        private UnityDisplay _unityDisplay;
+        private DiContainer _diContainer;               // Reference to the container.
+        private UnityDisplay _unityDisplay;             // Reference to the UnityDisplay.
 
-        private PersonGO _personGo;
-        private List<PersonGO> _people;
+        private PersonGO _personGo;                     // Reference to the PersonGO.
+        private List<PersonGO> _people;                 // Reference to the List of PersonGO.
         
         [Inject]
-        public void Initialize(DiContainer diContainer, PersonGO personGo, UnityDisplay unityDisplay)
+        public void Initialize(DiContainer diContainer, PersonGO personGo, UnityDisplay unityDisplay, Boot boot)
         {
             // Inject dependencies
             _diContainer = diContainer;
             _personGo = personGo;
-            // Check if PersonGO is going
-            _personGo = personGo;
-            //Debug.LogWarning($"{_personGo.isGoing}");
             _unityDisplay = unityDisplay;
+            _boot = boot;
         }
 
         private void Start()
@@ -107,9 +105,9 @@ namespace Elevator
         /// Moves the elevator to the target floor.
         /// </summary>
         /// <param name="floorNumber">The target floor number.</param>
-        public void MoveToTargetFloor(int floorNumber, Elevator elevator = _elevator)
+        /// <param name="elevator">The elevator.</param> 
+        public void MoveToTargetFloor(int floorNumber)
         {
-            //_elevator = FindObjectOfType<Boot>().GetElevator() as Elevator;
             // Check if the elevator is initialized
             if (_elevator != null)
             {
@@ -121,11 +119,13 @@ namespace Elevator
                     if (!_elevator.Moving && _elevator.CurrentFloor != floorNumber)
                     {
                         StartCoroutine(_elevator.ElevatorMove(floorNumber, _stage, ElevatorMovementCurve));
+                        Debug.Log($"USUAL CURVE");
                     }
 
                     if (!_elevator.Moving && (floorNumber > _boot.GetNumberOfFloors() || floorNumber < 1))
                     {
                         StartCoroutine(_elevator.ElevatorMove(floorNumber, _stage, ElevatorBoundCurve));
+                        Debug.Log($"BOUNCE CURVE");
                     }
                 }
                 else

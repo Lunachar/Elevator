@@ -10,35 +10,29 @@ namespace Elevator
     /// </summary>
     public class Elevator : IElevator, IObserverble
     {
-        // List of observers subscribed to elevator events
-        private List<IObserver> _observers { get; set; }
-        // Duration of elevator movement between floors
-        private float moveDuration = 0.1f;
+        public int CurrentFloor { get; set; }               // Current floor of the elevator
+        public bool Moving;                                 // Indicates whether the elevator is moving
+        public int Capacity { get; set; }                   // Maximum capacity of the elevator
         
-        // Reference to the Boot
-        public Boot _boot;
-        
-        // Maximum capacity of the elevator
-        public int Capacity { get; set; }
-        
+        private List<IObserver> _observers { get; set; }    // List of observers subscribed to elevator events
+        // private float moveDuration = 0.2f;                  // Duration of elevator movement between floors
+        private Boot _boot;                                  // Reference to the Boot
+        private const float ElevatorMovementCoefficient = 2f; // Elevator movement coefficient
+
         private List<PersonGO> _passengersInsideElevator = new List<PersonGO>();
         private List<PersonGO> _unloadPassengersNow = new List<PersonGO>();
         
-        // Current number of people inside the elevator
-        private int _filling;
+        private int _filling;                               // Current number of people inside the elevator
 
-        // Property to get or set the current filling of the elevator
-        public int Filling
+        public int Filling                                  // Property to get or set the current filling of the elevator
         {
             get => _filling;
             set => _filling = Mathf.Clamp(value, 0, Capacity);
         }
         
-        // Current floor of the elevator
-        public int CurrentFloor { get; set; }
-        // Flag indicating if the elevator is currently moving
-        public bool Moving;
 
+        
+        
         /// <summary>
         /// Constructor for the Elevator class.
         /// </summary>
@@ -138,7 +132,7 @@ namespace Elevator
             // Calculate target position based on the target floor
             if (CurrentFloor < floorNumber && floorNumber <= _boot.GetNumberOfFloors())
             {
-                var floorDifference = floorNumber - CurrentFloor;
+                var floorDifference = floorNumber - CurrentFloor;   // Difference between the target floor and the current floor
                 targetPosition = initialPosition + new Vector3(0f, -6f * floorDifference, 0f);
                 CurrentFloor += floorDifference;
             }
@@ -164,6 +158,8 @@ namespace Elevator
             // Initialize variables for Lerping
             float elapsedTime = 0f;
             float waitTime = 0.05f;
+            float floorDistance = Mathf.Abs(CurrentFloor - floorNumber);    // Distance between the target floor and the current floor
+            float moveDuration = floorDistance * ElevatorMovementCoefficient;
 
             // Move the elevator smoothly using Lerp
             while (elapsedTime < moveDuration)

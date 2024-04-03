@@ -10,21 +10,16 @@ namespace Elevator.Display
 {
     public class UnityDisplay : MonoBehaviour, IObserver
     {
-        // Reference to the building
-        private Building _building;
+        public GameObject UpAndDownButtonsMenu;         // Reference to the buttons menu
+        public GameObject FloorButtonsMenu;             // Reference to the buttons menu
+        
+        private Building _building;                     // Reference to the building script
+        private FloorGO _floorGO;                       // Reference to the floor game object
+        private ElevatorGO _elevatorGo;                 // Reference to the elevator game object
+        private PersonGO _personGo;                     // Reference to the person game object
+        private EmptyObject _emptyObject;               // Reference to the empty object, used to be Stage, includes all the floors
+        private DiContainer _container;                 // Dependency injection container
 
-        // Dependency injection container
-        private DiContainer _container;
-
-        // Prefabs for floor, elevator, person, and empty object
-        private FloorGO _floorGO;
-        private ElevatorGO _elevatorGo;
-        private PersonGO _personGo;
-        private EmptyObject _emptyObject;
-
-        // References to the menu prefab
-        public GameObject UpAndDownButtonsMenu;
-        public GameObject FloorButtonsMenu;
 
 
         // Constructor for dependency injection
@@ -104,8 +99,7 @@ floorInstance.GetComponentInChildren<FloorGO>().floorNumber = floor.Number;
             _container.InstantiatePrefabForComponent<ElevatorGO>(_elevatorGo);
         }
 
-        // Visualize the control panel
-        private void VisualizeControlPanel()
+        private void VisualizeControlPanel()        // Visualize the control panel
         {
             // Instantiate the menu prefab
             Instantiate(UpAndDownButtonsMenu);

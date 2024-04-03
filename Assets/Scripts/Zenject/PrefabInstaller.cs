@@ -12,7 +12,7 @@ namespace Elevator
         public ElevatorGO elevatorGo;
         public FloorGO floorGo;
         public PersonGO personGo;
-        [FormerlySerializedAs("upAndDownButtonsMenu")] [FormerlySerializedAs("menuAndButtons")] public MenuButtonsUpAndDown menuButtonsUpAndDown;
+        public MenuButtonsUpAndDown menuButtonsUpAndDown;
 
         public EmptyObject emptyObject;
 
