@@ -17,7 +17,7 @@ namespace Elevator
         private List<IObserver> _observers { get; set; }    // List of observers subscribed to elevator events
         // private float moveDuration = 0.2f;                  // Duration of elevator movement between floors
         private Boot _boot;                                  // Reference to the Boot
-        private const float ElevatorMovementCoefficient = 2f; // Elevator movement coefficient
+        private const float ElevatorMovementCoefficient = 1f; // Elevator movement coefficient
 
         private List<PersonGO> _passengersInsideElevator = new List<PersonGO>();
         private List<PersonGO> _unloadPassengersNow = new List<PersonGO>();
@@ -128,6 +128,7 @@ namespace Elevator
             // Get initial position of the stage
             Vector3 initialPosition = stage.transform.position;
             Vector3 targetPosition;
+            int startingFloorNumber = CurrentFloor; // Save the starting floor number
 
             // Calculate target position based on the target floor
             if (CurrentFloor < floorNumber && floorNumber <= _boot.GetNumberOfFloors())
@@ -158,8 +159,10 @@ namespace Elevator
             // Initialize variables for Lerping
             float elapsedTime = 0f;
             float waitTime = 0.05f;
-            float floorDistance = Mathf.Abs(CurrentFloor - floorNumber);    // Distance between the target floor and the current floor
+            float floorDistance = Mathf.Abs(startingFloorNumber - floorNumber); // Distance between the target floor and the current floor 
+            Debug.Log($"FloorDistance {startingFloorNumber} - {floorNumber} = {floorDistance}");
             float moveDuration = floorDistance * ElevatorMovementCoefficient;
+            Debug.Log($"MoveDuration {moveDuration} coef {ElevatorMovementCoefficient}");
 
             // Move the elevator smoothly using Lerp
             while (elapsedTime < moveDuration)
@@ -168,7 +171,7 @@ namespace Elevator
                 float easeValue = animCurve.Evaluate(t);
                 stage.transform.position = Vector3.LerpUnclamped(initialPosition, targetPosition, easeValue);
                 elapsedTime += Time.deltaTime;
-                yield return new WaitForSeconds(waitTime);
+                yield return null;
             }
 
             // Set the stage position to the target position

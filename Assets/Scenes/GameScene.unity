@@ -264,8 +264,8 @@ GameObject:
   m_Component:
   - component: {fileID: 649045747}
   - component: {fileID: 649045746}
-  - component: {fileID: 649045748}
   - component: {fileID: 649045749}
+  - component: {fileID: 649045748}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -288,8 +288,8 @@ MonoBehaviour:
   _scriptableObjectInstallers: []
   _monoInstallers:
   - {fileID: 649045748}
+  _installerPrefabs:
   - {fileID: 649045749}
-  _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
     m_PersistentCalls:
@@ -335,7 +335,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bootInstance: {fileID: 453129703}
   unityDisplayInstance: {fileID: 740895713}
-  menuButtonsUpAndDown: {fileID: 2545547359005265233, guid: c8130f8e788bd99499450ac38cf782d1, type: 3}
   personGo: {fileID: 8880379102019744520, guid: d0f3b627628c41f42ad6b0dddc14d9d1, type: 3}
 --- !u!114 &649045749
 MonoBehaviour:
@@ -354,6 +353,8 @@ MonoBehaviour:
   floorGo: {fileID: 2107450391057364067, guid: 5784e07a38007a64e8af2ecb6664b3b0, type: 3}
   personGo: {fileID: 8880379102019744520, guid: d0f3b627628c41f42ad6b0dddc14d9d1, type: 3}
   menuButtonsUpAndDown: {fileID: 2545547359005265233, guid: c8130f8e788bd99499450ac38cf782d1, type: 3}
+  menuButtonFloors: {fileID: -2106093772140287186, guid: 207818adf0893264d9bc554a58abdbda, type: 3}
+  bootInstance: {fileID: 453129703}
   emptyObject: {fileID: 6458530009686655370, guid: 37f2c13e9fab24d4e86040c7a1e9117f, type: 3}
 --- !u!1 &740895712
 GameObject:

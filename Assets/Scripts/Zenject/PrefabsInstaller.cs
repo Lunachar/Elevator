@@ -6,13 +6,16 @@ using Zenject;
 
 namespace Elevator
 {
-    public class PrefabInstaller : MonoInstaller
+    public class PrefabsInstaller : MonoInstaller
     {
         public BuildingGO buildingGo;
         public ElevatorGO elevatorGo;
         public FloorGO floorGo;
         public PersonGO personGo;
         public MenuButtonsUpAndDown menuButtonsUpAndDown;
+        public MenuButtonFloors menuButtonFloors;
+        //public Boot bootInstance;
+        
 
         public EmptyObject emptyObject;
 
@@ -23,7 +26,9 @@ namespace Elevator
             BindFloorGO();
             BindPersonGO();
             BindEmptyObject();
-            Container.Bind<MenuButtonsUpAndDown>().FromInstance(menuButtonsUpAndDown).AsTransient();
+            Container.BindInstance(menuButtonsUpAndDown).AsSingle();
+            Container.BindInstance(menuButtonFloors).AsSingle();
+           //Container.Bind<Boot>().FromInstance(bootInstance).AsCached();
         }
         
         private void BindBuildingGO()
@@ -62,6 +67,11 @@ namespace Elevator
                 .FromInstance(emptyObject)
                 .AsSingle();
         }
+
+        // public void SetBootInstance(Boot bootInstance)
+        // {
+        //     this.bootInstance = bootInstance;
+        // }
         
     }
 }

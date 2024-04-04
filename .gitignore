@@ -72,3 +72,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 Elevator_curr.db
 Elevator_prev.db
+Elevator_curr.db
+Elevator_prev.db

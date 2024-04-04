@@ -29,19 +29,11 @@ namespace Elevator
         private PersonGO _personGo;                     // Reference to the PersonGO.
         private List<PersonGO> _people;                 // Reference to the List of PersonGO.
         
-        [Inject]
-        public void Initialize(DiContainer diContainer, PersonGO personGo, UnityDisplay unityDisplay, Boot boot)
-        {
-            // Inject dependencies
-            _diContainer = diContainer;
-            _personGo = personGo;
-            _unityDisplay = unityDisplay;
-            _boot = boot;
-        }
-
+        
         private void Start()
         {
             // Find references and set up button listeners
+            _boot = FindObjectOfType<Boot>().GetComponent<Boot>();
             _elevator = FindObjectOfType<Boot>().GetElevator() as Elevator;
             _stage = GameObject.Find("STAGE");
             
@@ -122,6 +114,15 @@ namespace Elevator
                         Debug.Log($"USUAL CURVE");
                     }
 
+                    if (_elevator == null)
+                    {
+                        Debug.Log("Elevator is null");
+                    }
+
+                    if (_boot == null)
+                    {
+                        Debug.Log("Boot is null");
+                    }
                     if (!_elevator.Moving && (floorNumber > _boot.GetNumberOfFloors() || floorNumber < 1))
                     {
                         StartCoroutine(_elevator.ElevatorMove(floorNumber, _stage, ElevatorBoundCurve));

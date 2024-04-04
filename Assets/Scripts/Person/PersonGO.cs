@@ -90,15 +90,26 @@ namespace Elevator
             isGoing = false;
         }
 
-        public void DissapearAfterDelay()
+        public IEnumerator DissapearAfterDelay()
         {
-            Destroy(gameObject, 1f);
+            float duration = 1f;                            // How long it takes to disappear
+            float scaleSpeed = 1f;                          // How fast it scales
+            float initialScale = transform.localScale.x;    // Initial scale of the person
+
+            yield return new WaitForSeconds(duration);
+            for (float t = 0f; t < 1f; t += Time.deltaTime * scaleSpeed)
+            {
+                float scale = Mathf.Lerp(initialScale, 0f, t);           
+                transform.localScale = new Vector3(scale, scale, scale);
+                yield return null;
+            }
+            Destroy(gameObject);
         }
 
         public void ExitElevator()
         {
             StartCoroutine(MoveToFloor());
-            DissapearAfterDelay();
+            StartCoroutine(DissapearAfterDelay());
         }
         public void SetCurrentFloor(int cfloor)
         {
