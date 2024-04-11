@@ -13,13 +13,15 @@ namespace Elevator
         [SerializeField] private Boot bootInstance;
         [SerializeField] private UnityDisplay unityDisplayInstance;
         [SerializeField] private PersonGO personGo;
+        [SerializeField] private MainMenu mainMenu;
         
         public override void InstallBindings()
         {
             Container.BindInstance(bootInstance).AsSingle();
             Container.BindInstance(unityDisplayInstance).AsSingle();
+            Container.BindInstance(mainMenu).AsSingle();
             
-            
+            // Container.Bind<MainMenu>().AsSingle();
             Container.Bind<Building>().AsSingle();
             Container.Bind<FloorFactory>().AsSingle();
             Container.Bind<Floor>().AsTransient();

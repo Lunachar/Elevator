@@ -123,7 +123,7 @@ namespace Elevator
                     {
                         Debug.Log("Boot is null");
                     }
-                    if (!_elevator.Moving && (floorNumber > _boot.GetNumberOfFloors() || floorNumber < 1))
+                    if (!_elevator.Moving && (floorNumber > _boot.NumberOfFloors || floorNumber < 1))
                     {
                         StartCoroutine(_elevator.ElevatorMove(floorNumber, _stage, ElevatorBoundCurve));
                         Debug.Log($"BOUNCE CURVE");

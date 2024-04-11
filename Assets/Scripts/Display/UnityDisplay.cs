@@ -10,21 +10,21 @@ namespace Elevator.Display
 {
     public class UnityDisplay : MonoBehaviour, IObserver
     {
-        public GameObject UpAndDownButtonsMenu;         // Reference to the buttons menu
-        public GameObject FloorButtonsMenu;             // Reference to the buttons menu
-        
-        private Building _building;                     // Reference to the building script
-        private FloorGO _floorGO;                       // Reference to the floor game object
-        private ElevatorGO _elevatorGo;                 // Reference to the elevator game object
-        private PersonGO _personGo;                     // Reference to the person game object
-        private EmptyObject _emptyObject;               // Reference to the empty object, used to be Stage, includes all the floors
-        private DiContainer _container;                 // Dependency injection container
+        public GameObject UpAndDownButtonsMenu;     // Reference to the buttons menu
+        public GameObject FloorButtonsMenu;         // Reference to the buttons menu
 
+        private Building _building;                 // Reference to the building script
+        private FloorGO _floorGO;                   // Reference to the floor game object
+        private ElevatorGO _elevatorGo;             // Reference to the elevator game object
+        private PersonGO _personGo;                 // Reference to the person game object
+        private EmptyObject _emptyObject;           // Reference to the empty object, used to be Stage, includes all the floors
+        private DiContainer _container;             // Dependency injection container
 
 
         // Constructor for dependency injection
         [Inject]
-        public void Construct(Building building, DiContainer container, FloorGO floorGo, ElevatorGO elevatorGo, PersonGO personGo, EmptyObject emptyObject)
+        public void Construct(Building building, DiContainer container, FloorGO floorGo, ElevatorGO elevatorGo,
+            PersonGO personGo, EmptyObject emptyObject)
         {
             _building = building;
             _container = container;
@@ -69,7 +69,7 @@ namespace Elevator.Display
                     Quaternion.identity,
                     stage.transform);
                 floorInstance.name = $"Floor {floor.Number}";
-floorInstance.GetComponentInChildren<FloorGO>().floorNumber = floor.Number;
+                floorInstance.GetComponentInChildren<FloorGO>().floorNumber = floor.Number;
                 floorInstance.GetComponentInChildren<TMP_Text>().text = $"Floor {floor.Number}";
 
                 // Iterate through each person on the floor
@@ -82,12 +82,12 @@ floorInstance.GetComponentInChildren<FloorGO>().floorNumber = floor.Number;
                         new Vector3((1f * personOffset) - 2, -2.73f + floorHeight, 0f),
                         Quaternion.identity,
                         floorInstance.transform);
-                    
+
                     personInstance.SetCurrentFloor(person.GetCurrentFloor());
                     personInstance.SetTargetFloor(person.GetTargetFloor());
-                    
+
                     //personInstance.SetFloor(floorInstance);
-                    
+
                     personInstance.text.text = person.GetPersonName();
                     personOffset += 2; // Increase offset for next person
                 }
@@ -99,7 +99,7 @@ floorInstance.GetComponentInChildren<FloorGO>().floorNumber = floor.Number;
             _container.InstantiatePrefabForComponent<ElevatorGO>(_elevatorGo);
         }
 
-        private void VisualizeControlPanel()        // Visualize the control panel
+        private void VisualizeControlPanel() // Visualize the control panel
         {
             // Instantiate the menu prefab
             Instantiate(UpAndDownButtonsMenu);

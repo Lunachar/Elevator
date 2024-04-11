@@ -45,7 +45,7 @@ public class MenuButtonFloors : MonoBehaviour
 
         if (_boot != null) 
         {
-            for (int floorButton = 0; floorButton < _boot.GetNumberOfFloors(); floorButton++) // 0 to _boot.GetNumberOfFloors()
+            for (int floorButton = 0; floorButton < _boot.NumberOfFloors; floorButton++) // 0 to _boot.GetNumberOfFloors()
             {
                 GameObject buttonObject = Instantiate(ButtonPrefab, new Vector3(buttonStartPositionX, buttonStartPositionY), Quaternion.identity, transform);
                 buttonObject.name = $"Floor {floorButton + 1}"; // set name of button

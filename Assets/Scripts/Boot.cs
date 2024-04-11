@@ -8,13 +8,59 @@ using Zenject;
 
 namespace Elevator
 {
-    public class Boot : MonoBehaviour, IStartData
+    public class Boot : MonoBehaviour
     {
+        // The only data input in the game
+        [SerializeField]private int _numberOfFloors; // Total number of floors in the building
+        [SerializeField]private int _elevatorCapacity; // Maximum capacity of the elevator
+        [SerializeField]private int _maxPeoplePerFloor; // Maximum number of people per floor
+
+        public int NumberOfFloors
+        {
+            get { return _numberOfFloors; }
+            set {
+                if (value < 2 || value > 10)
+                {
+                    throw new Exception("Invalid number of floors. Must be between 2 and 10.");
+                }
+                _numberOfFloors = value;
+            }
+        }
+
+        public int ElevatorCapacity
+        {
+            get { return _elevatorCapacity; }
+            set
+            {
+                if (value < 1 || value > 10)
+                {
+                    throw new Exception("Invalid elevator capacity. Must be between 1 and 10.");
+                }
+
+                _elevatorCapacity = value;
+            }
+        }
+
+        public int MaxPeoplePerFloor
+        {
+            get { return _maxPeoplePerFloor; }
+            set
+            {
+                if (value < 1 || value > 10)
+                {
+                    throw new Exception("Invalid maximum people per floor. Must be between 1 and 10.");
+                }
+
+                _maxPeoplePerFloor = value;
+            }
+        }
+
         // Components
         private ConsoleDisplay _consoleDisplay; // For displaying information in the console
         private UnityDisplay _unityDisplay; // For visualizing the elevator system in Unity
         private Building _building; // Represents the building structure
         private GameObject _stage; // Represents the main stage object
+        private MainMenu _mainMenu; // Represents the main menu
         
         private IElevator _elevator; // The elevator instance
         private FloorFactory _floorFactory; // Factory for creating floors
@@ -23,13 +69,8 @@ namespace Elevator
         
         private DatabaseManager _databaseManager; // Manages the database
         
-        // The only data input in the game
-        public int NumberOfFloors; // Total number of floors in the building
-        public int ElevatorCapacity; // Maximum capacity of the elevator
-        public int MaxPeoplePerFloor; // Maximum number of people per floor
-        
         [Inject]
-        public void Construct(Building building, ConsoleDisplay consoleDisplay, UnityDisplay unityDisplay, IElevator elevator, FloorFactory floorFactory, DatabaseManager databaseManager, FloorList floorList, PersonGO personGo)
+        public void Construct(Building building, ConsoleDisplay consoleDisplay, UnityDisplay unityDisplay, IElevator elevator, FloorFactory floorFactory, DatabaseManager databaseManager, FloorList floorList, PersonGO personGo, MainMenu mainMenu)
         {
             // Dependency injection to initialize components
             _consoleDisplay = consoleDisplay;
@@ -40,10 +81,20 @@ namespace Elevator
             _databaseManager = databaseManager;
             _floorList = floorList;
             _personGo = personGo;
+            _mainMenu = mainMenu;
+        }
+
+        private void Awake()
+        {
+            // Initialize the building structure and components
+            NumberOfFloors = MainMenu.NumberOfFloors;
+            ElevatorCapacity = MainMenu.ElevatorCapacity;
+            MaxPeoplePerFloor = MainMenu.MaxPeoplePerFloor;
         }
 
         private void Start()
         {
+            
             // Initialization tasks when the script instance is being loaded
             if (_building != null && _consoleDisplay != null)
             {
@@ -87,20 +138,20 @@ namespace Elevator
         }
 
         // Accessor methods
-        public int GetMaxPeoplePerFloor()
-        {
-            return MaxPeoplePerFloor;
-        }
-
-        public int GetNumberOfFloors()
-        {
-            return NumberOfFloors;
-        }
-
-        public int GetElevatorCapacity()
-        {
-            return ElevatorCapacity;
-        }
+        // public int GetMaxPeoplePerFloor()
+        // {
+        //     return _maxPeoplePerFloor;
+        // }
+        //
+        // public int GetNumberOfFloors()
+        // {
+        //     return _numberOfFloors;
+        // }
+        //
+        // public int GetElevatorCapacity()
+        // {
+        //     return _elevatorCapacity;
+        // }
 
         public IElevator GetElevator()
         {
