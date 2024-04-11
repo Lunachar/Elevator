@@ -23,7 +23,7 @@ namespace Elevator
                 {
                     throw new Exception("Invalid number of floors. Must be between 2 and 10.");
                 }
-                _numberOfFloors = value;
+                _numberOfFloors = MainMenu.instance.NumberOfFloors;
             }
         }
 
