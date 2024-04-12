@@ -15,42 +15,31 @@ namespace Elevator
         [SerializeField]private int _elevatorCapacity; // Maximum capacity of the elevator
         [SerializeField]private int _maxPeoplePerFloor; // Maximum number of people per floor
 
-        public int NumberOfFloors
+        public int PNumberOfFloors
         {
             get { return _numberOfFloors; }
             set {
-                if (value < 2 || value > 10)
-                {
-                    throw new Exception("Invalid number of floors. Must be between 2 and 10.");
-                }
+                if (value < 2 || value > 10) { throw new Exception("Invalid number of floors. Must be between 2 and 10."); }
                 _numberOfFloors = value;
             }
         }
 
-        public int ElevatorCapacity
+        public int PElevatorCapacity
         {
             get { return _elevatorCapacity; }
             set
             {
-                if (value < 1 || value > 10)
-                {
-                    throw new Exception("Invalid elevator capacity. Must be between 1 and 10.");
-                }
-
+                if (value < 1 || value > 10) { throw new Exception("Invalid elevator capacity. Must be between 1 and 10."); }
                 _elevatorCapacity = value;
             }
         }
 
-        public int MaxPeoplePerFloor
+        public int PMaxPeoplePerFloor
         {
             get { return _maxPeoplePerFloor; }
             set
             {
-                if (value < 1 || value > 10)
-                {
-                    throw new Exception("Invalid maximum people per floor. Must be between 1 and 10.");
-                }
-
+                if (value < 1 || value > 10) { throw new Exception("Invalid maximum people per floor. Must be between 1 and 10."); }
                 _maxPeoplePerFloor = value;
             }
         }
@@ -75,21 +64,13 @@ namespace Elevator
             // Dependency injection to initialize components
             _consoleDisplay = consoleDisplay;
             _unityDisplay = unityDisplay;
+            _mainMenu = mainMenu;
             _building = building;
             _elevator = elevator;
             _floorFactory = floorFactory;
             _databaseManager = databaseManager;
             _floorList = floorList;
             _personGo = personGo;
-            _mainMenu = mainMenu;
-        }
-
-        private void Awake()
-        {
-            // Initialize the building structure and components
-            NumberOfFloors = MainMenu.NumberOfFloors;
-            ElevatorCapacity = MainMenu.ElevatorCapacity;
-            MaxPeoplePerFloor = MainMenu.MaxPeoplePerFloor;
         }
 
         private void Start()
@@ -138,20 +119,23 @@ namespace Elevator
         }
 
         // Accessor methods
-        // public int GetMaxPeoplePerFloor()
-        // {
-        //     return _maxPeoplePerFloor;
-        // }
-        //
-        // public int GetNumberOfFloors()
-        // {
-        //     return _numberOfFloors;
-        // }
-        //
-        // public int GetElevatorCapacity()
-        // {
-        //     return _elevatorCapacity;
-        // }
+        public int MaxPeoplePerFloor()
+        {
+            PMaxPeoplePerFloor = MainMenu.MaxPeoplePerFloor;
+            return PMaxPeoplePerFloor;
+        }
+        
+        public int NumberOfFloors()
+        {
+            PNumberOfFloors = MainMenu.NumberOfFloors;
+            return PNumberOfFloors;
+        }
+        
+        public int ElevatorCapacity()
+        {
+            PElevatorCapacity = MainMenu.ElevatorCapacity;
+            return PElevatorCapacity;
+        }
 
         public IElevator GetElevator()
         {

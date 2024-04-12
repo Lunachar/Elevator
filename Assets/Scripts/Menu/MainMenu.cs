@@ -2,15 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Elevator;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    public Slider maxPeoplePerFloorSlider;  // slider to change the max people per floor
     public Slider numberOfFloorsSlider;     // slider to change the number of floors
     public Slider elevatorCapacitySlider;   // slider to change the elevator capacity
-    public Slider maxPeoplePerFloorSlider;  // slider to change the max people per floor
+    
+    public TMP_Text PPFtext;
+    public TMP_Text NOFtext;
+    public TMP_Text EPCtext;
 
     public static MainMenu instance { get; private set; }
 
@@ -29,6 +34,13 @@ public class MainMenu : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Update()
+    {
+        PPFtext.text = maxPeoplePerFloorSlider.value.ToString();
+        NOFtext.text = numberOfFloorsSlider.value.ToString();
+        EPCtext.text = elevatorCapacitySlider.value.ToString();
     }
 
     public void StartGame()

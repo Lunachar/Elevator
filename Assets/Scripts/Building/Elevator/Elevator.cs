@@ -41,7 +41,7 @@ namespace Elevator
         public Elevator(Boot boot, ElevatorGO elevatorGo)
         {
             // Initialize elevator properties
-            Capacity = boot.ElevatorCapacity;
+            Capacity = boot.ElevatorCapacity();
             CurrentFloor = 1;
             _observers = new List<IObserver>();
             _boot = boot;
@@ -131,7 +131,7 @@ namespace Elevator
             int startingFloorNumber = CurrentFloor; // Save the starting floor number
 
             // Calculate target position based on the target floor
-            if (CurrentFloor < floorNumber && floorNumber <= _boot.NumberOfFloors)
+            if (CurrentFloor < floorNumber && floorNumber <= _boot.NumberOfFloors())
             {
                 var floorDifference = floorNumber - CurrentFloor;   // Difference between the target floor and the current floor
                 targetPosition = initialPosition + new Vector3(0f, -6f * floorDifference, 0f);
@@ -143,7 +143,7 @@ namespace Elevator
                 targetPosition = initialPosition + new Vector3(0f, 6f * floorDifference, 0f);
                 CurrentFloor -= floorDifference;
             }
-            else if ((CurrentFloor == 1 && floorNumber < 1) || (CurrentFloor == _boot.NumberOfFloors && floorNumber > _boot.NumberOfFloors))
+            else if ((CurrentFloor == 1 && floorNumber < 1) || (CurrentFloor == _boot.NumberOfFloors() && floorNumber > _boot.NumberOfFloors()))
             {
                 targetPosition = initialPosition + new Vector3(0f, 0.2f, 0f);
             }

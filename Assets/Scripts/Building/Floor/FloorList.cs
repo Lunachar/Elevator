@@ -11,7 +11,7 @@ namespace Elevator
         public FloorList(Boot boot, FloorFactory floorFactory)
         {
             _boot = boot;
-            var numberOfFloors = _boot.NumberOfFloors;
+            var numberOfFloors = _boot.NumberOfFloors();
             Debug.Log($"||FLOORLIST {numberOfFloors}");
            
             _floors = GenerateFloors(numberOfFloors, floorFactory);;
@@ -22,7 +22,7 @@ namespace Elevator
             List<Floor> floors = new List<Floor>();
             for (int i = 1; i <= numberOfFloors; i++)
             {
-                floors.Add(floorFactory.Create(i,numberOfFloors, _boot.MaxPeoplePerFloor));
+                floors.Add(floorFactory.Create(i,numberOfFloors, _boot.MaxPeoplePerFloor()));
                 Debug.LogWarning($"I) Floor Number {i}");
             }
 
