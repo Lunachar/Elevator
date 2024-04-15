@@ -2,16 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Elevator.Display;
+using Elevator.Interfaces.EventBus;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
+using Object = UnityEngine.Object;
 
 namespace Elevator
 {
     /// <summary>
     /// Manages the UI buttons for controlling the elevator.
     /// </summary>
-    public class MenuButtonsUpAndDown : MonoBehaviour
+    public class MenuButtonsUpAndDown : MonoBehaviour, IListener
     {
         public Button buttonUp;                         // The button that moves the elevator up.
         public Button buttonDown;                       // The button that moves the elevator down.
@@ -29,9 +31,14 @@ namespace Elevator
         private PersonGO _personGo;                     // Reference to the PersonGO.
         private List<PersonGO> _people;                 // Reference to the List of PersonGO.
         
+        private bool _isMoving;                          // Whether or not the elevator is moving.
+        
         
         private void Start()
         {
+            // Add itself as a listener of elevatorIsMoving event
+            EventManager.Instance.AddListener(EVENT_TYPE.ELEVATOR_IS_MOVING, this);
+            
             // Find references and set up button listeners
             _boot = FindObjectOfType<Boot>().GetComponent<Boot>();
             _elevator = FindObjectOfType<Boot>().GetElevator() as Elevator;
@@ -81,7 +88,7 @@ namespace Elevator
         }
         private bool AnyPersonFromElevatorMoving()
         {
-            _people = _elevator.GetPassengersInsideElevator();
+            _people = _elevator.ElevatorGo.GetPassengersInsideElevator();
             
             foreach (PersonGO person in _people)
             {
@@ -107,10 +114,10 @@ namespace Elevator
                 // Check if the person is not moving
                 if (!AnyPersonOnFloorMoving(_elevator.CurrentFloor) && !AnyPersonFromElevatorMoving())
                 {
-                    // Check if the elevator is not moving and the target floor is different
-                    if (!_elevator.Moving && _elevator.CurrentFloor != floorNumber)
+                    // Check if the elevator is not moving and the target floor is different from the current floor
+                    if (!_isMoving && _elevator.CurrentFloor != floorNumber)
                     {
-                        StartCoroutine(_elevator.ElevatorMove(floorNumber, _stage, ElevatorMovementCurve));
+                        StartCoroutine(_elevator.ElevatorGo.ElevatorMove(floorNumber, _stage, ElevatorMovementCurve));
                         Debug.Log($"USUAL CURVE");
                     }
 
@@ -123,9 +130,9 @@ namespace Elevator
                     {
                         Debug.Log("Boot is null");
                     }
-                    if (!_elevator.Moving && (floorNumber > _boot.NumberOfFloors() || floorNumber < 1))
+                    if (!_isMoving && (floorNumber > _boot.NumberOfFloors() || floorNumber < 1))
                     {
-                        StartCoroutine(_elevator.ElevatorMove(floorNumber, _stage, ElevatorBoundCurve));
+                        StartCoroutine(_elevator.ElevatorGo.ElevatorMove(floorNumber, _stage, ElevatorBoundCurve));
                         Debug.Log($"BOUNCE CURVE");
                     }
                 }
@@ -138,6 +145,25 @@ namespace Elevator
             else
             {
                 Debug.Log("Elevator is null in MoveToTargetFloor!");
+            }
+        }
+
+        private void OnElevatorMovingStatusChange(Component sender, object Param)
+        {
+            if (sender == _elevator.ElevatorGo && Param is bool)
+            {
+                bool isMoving = (bool)Param;
+                if (isMoving) _isMoving = true;
+                else _isMoving = false;
+            }
+        }
+        public void OnEvent(EVENT_TYPE EventType, Component sender, object Param = null)
+        {
+            switch (EventType)
+            {
+                case EVENT_TYPE.ELEVATOR_IS_MOVING:
+                    OnElevatorMovingStatusChange(sender, Param);
+                    break;
             }
         }
     }

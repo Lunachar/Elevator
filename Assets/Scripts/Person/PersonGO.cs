@@ -58,7 +58,7 @@ namespace Elevator
             _isInElevator = true;
 
             Debug.Log($"Person in Elevator");
-            _elevator.AddPassengerToElevator(this);
+            _elevator.ElevatorGo.AddPassengerToElevator(this);
             isGoing = false;
         }
 

@@ -70,8 +70,6 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
-Elevator_curr.db
-Elevator_prev.db
-Elevator_curr.db
-Elevator_prev.db
 Assets/TODO/addToTODO.txt.meta
+Elevator_curr.db
+Elevator_prev.db
