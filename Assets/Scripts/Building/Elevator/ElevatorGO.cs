@@ -18,9 +18,12 @@ namespace Elevator
             get { return _elevator.IsMoving; }
             set
             {
-                _elevator.IsMoving = value; 
-                
-                EventManager.Instance.PostNotification(EVENT_TYPE.ELEVATOR_IS_MOVING, this, value);
+                if (_elevator != null)
+                {
+                    _elevator.IsMoving = value;
+
+                    EventManager.Instance.PostNotification(EVENT_TYPE.ELEVATOR_IS_MOVING, this, value);
+                }
             }
         }
         
@@ -151,11 +154,11 @@ namespace Elevator
             _elevator.Notify();
         } 
 
-        private void Start()
-        {
-            _elevator = GetComponent<Elevator>();
-            _elevator.Attach(this);
-        }
+        // private void Start()
+        // {
+        //     _elevator = GetComponent<Elevator>();
+        //     _elevator.Attach(this);
+        // }
 
         private void Update()
         {
