@@ -12,7 +12,7 @@ namespace Elevator
     public class ElevatorGO : MonoBehaviour, IObserver
     {
         private Elevator _elevator;
-        private int a = 1;
+        //private int a = 1;
         public bool Moving
         {
             get { return _elevator.IsMoving; }
@@ -27,7 +27,7 @@ namespace Elevator
             }
         }
         
-        private Boot _boot;                                  // Reference to the Boot
+        private Boot _boot;                                  // Reference to Boot
         private const float ElevatorMovementCoefficient = 1f; // Elevator movement coefficient
 
         private List<PersonGO> _passengersInsideElevator = new List<PersonGO>();
@@ -88,8 +88,16 @@ namespace Elevator
         /// <param name="floorNumber">The target floor number.</param>
         /// <param name="stage">The GameObject representing the stage where the elevator is located.</param>
         /// <param name="animCurve">The animation curve for smooth movement.</param>
-        public IEnumerator ElevatorMove(int floorNumber, GameObject stage, AnimationCurve animCurve)
+        /// <param name="elevator">elevator link</param>
+        public IEnumerator ElevatorMove(int floorNumber, GameObject stage, AnimationCurve animCurve, IElevator elevator)
         {
+            // if (_elevator == null)
+            // {
+            //     Debug.LogError("_elevator is null");
+            //     yield break;
+            // }
+
+            _elevator = elevator as Elevator;
             // Set moving flag to true
             Moving = true;
             // Get initial position of the stage

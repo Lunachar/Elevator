@@ -117,7 +117,7 @@ namespace Elevator
                     // Check if the elevator is not moving and the target floor is different from the current floor
                     if (!_isMoving && _elevator.CurrentFloor != floorNumber)
                     {
-                        StartCoroutine(_elevator.ElevatorGo.ElevatorMove(floorNumber, _stage, ElevatorMovementCurve));
+                        StartCoroutine(_elevator.ElevatorGo.ElevatorMove(floorNumber, _stage, ElevatorMovementCurve, _elevator));
                         Debug.Log($"USUAL CURVE");
                     }
 
@@ -132,7 +132,7 @@ namespace Elevator
                     }
                     if (!_isMoving && (floorNumber > _boot.NumberOfFloors() || floorNumber < 1))
                     {
-                        StartCoroutine(_elevator.ElevatorGo.ElevatorMove(floorNumber, _stage, ElevatorBoundCurve));
+                        StartCoroutine(_elevator.ElevatorGo.ElevatorMove(floorNumber, _stage, ElevatorBoundCurve, _elevator));
                         Debug.Log($"BOUNCE CURVE");
                     }
                 }

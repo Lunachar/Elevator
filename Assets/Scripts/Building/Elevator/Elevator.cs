@@ -14,8 +14,8 @@ namespace Elevator
         private int _currentFloor;                          // Current floor of the elevator
         public int CurrentFloor
         {
-            get { return _currentFloor; }
-            set { _currentFloor = value; }
+            get => _currentFloor;
+            set => _currentFloor = value;
         }
 
         public bool IsMoving;                             // Indicates whether the elevator is moving
