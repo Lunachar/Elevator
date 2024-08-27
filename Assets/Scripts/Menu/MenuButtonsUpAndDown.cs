@@ -67,6 +67,7 @@ namespace Elevator
         private void MoveElevatorUp()
         {
             MoveToTargetFloor(_elevator.CurrentFloor + 1);
+            //Debug.LogError($"target floor {_elevator.CurrentFloor + 1}");
         }
 
         private void MoveElevatorDown()

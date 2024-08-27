@@ -104,9 +104,11 @@ namespace Elevator
             Vector3 initialPosition = stage.transform.position;
             Vector3 targetPosition;
             int startingFloorNumber = _elevator.CurrentFloor; // Save the starting floor number
+            Debug.Log($"current floor {_elevator.CurrentFloor}");
 
             // Calculate target position based on the target floor
-            if (_elevator.CurrentFloor < floorNumber && floorNumber <= _boot.NumberOfFloors())
+            
+            if (_elevator.CurrentFloor < floorNumber && floorNumber <= MainMenu.NumberOfFloors)
             {
                 var floorDifference = floorNumber - _elevator.CurrentFloor;   // Difference between the target floor and the current floor
                 targetPosition = initialPosition + new Vector3(0f, -6f * floorDifference, 0f);
