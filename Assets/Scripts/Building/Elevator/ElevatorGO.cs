@@ -12,6 +12,8 @@ namespace Elevator
     public class ElevatorGO : MonoBehaviour, IObserver
     {
         private Elevator _elevator;
+
+        [SerializeField]private GameManager _gameManager;
         //private int a = 1;
         public bool Moving
         {
@@ -34,11 +36,12 @@ namespace Elevator
         private List<PersonGO> _unloadPassengersNow = new List<PersonGO>();
 
         [Inject]
-        public void Construct(IElevator elevator)
+        public void Construct(IElevator elevator, GameManager gameManager)
         {
-            Debug.Log($"!!!!!!!!!!!!!!!");
+            // Debug.Log($"!!!!!!!!!!!!!!!");
             _elevator = elevator as Elevator;
             _elevator?.Attach(this);
+            _gameManager = gameManager;
         }
         
         public void AddPassengerToElevator(PersonGO passenger)
@@ -49,9 +52,10 @@ namespace Elevator
         private void PassengersToUnloadNow()
         {
             _unloadPassengersNow.Clear();
-            foreach (var passenger in _passengersInsideElevator)
+            for (var index = 0; index < _passengersInsideElevator.Count; index++)
             {
-                if (passenger.personTargetFloor == _elevator.CurrentFloor)
+                var passenger = _passengersInsideElevator[index];
+                if (passenger != null && passenger.personTargetFloor == _elevator.CurrentFloor)
                 {
                     _unloadPassengersNow.Add(passenger);
                     Debug.Log($"Passenger {passenger.personTargetFloor} has arrived");
@@ -61,18 +65,33 @@ namespace Elevator
 
         private void UnloadPassengers()
         {
-            foreach (var passenger in _unloadPassengersNow)
+            for (var person = 0; person < _unloadPassengersNow.Count; person++)
             {
-                ExitElevator();
-                _passengersInsideElevator.Remove(passenger);
-                Debug.Log($"Passenger {passenger.personTargetFloor} has been unloaded");
+                var passenger = _unloadPassengersNow[person];
+                if (passenger)
+                {
+                    ExitElevator();
+                    Debug.Log($"Passenger {passenger.personTargetFloor} has been unloaded");
+                    _passengersInsideElevator.Remove(passenger);
+                    // if (_gameManager == null)
+                    // {
+                    //     Debug.Log("Game Manager is Null");
+                    //     break;
+                    // }
+                    _gameManager.PassengersCounter();
+
+                }
             }
+
+            _unloadPassengersNow.Clear();
         }
 
+        
         private void ExitElevator()
         {
-            foreach (PersonGO person in _unloadPassengersNow)
+            for (var index = 0; index < _unloadPassengersNow.Count; index++)
             {
+                var person = _unloadPassengersNow[index];
                 person.ExitElevator();
             }
         }
@@ -91,13 +110,13 @@ namespace Elevator
         /// <param name="elevator">elevator link</param>
         public IEnumerator ElevatorMove(int floorNumber, GameObject stage, AnimationCurve animCurve, IElevator elevator)
         {
-            // if (_elevator == null)
-            // {
-            //     Debug.LogError("_elevator is null");
-            //     yield break;
-            // }
-
             _elevator = elevator as Elevator;
+            if (_elevator == null)
+            {
+                Debug.LogError("_elevator is null");
+                yield break;
+            }
+
             // Set moving flag to true
             Moving = true;
             // Get initial position of the stage
@@ -120,9 +139,9 @@ namespace Elevator
                 targetPosition = initialPosition + new Vector3(0f, 6f * floorDifference, 0f);
                 _elevator.CurrentFloor -= floorDifference;
             }
-            else if ((_elevator.CurrentFloor == 1 && floorNumber < 1) || (_elevator.CurrentFloor == _boot.NumberOfFloors() && floorNumber > _boot.NumberOfFloors()))
+            else if ((_elevator.CurrentFloor == 1 && floorNumber < 1) || (_elevator.CurrentFloor == MainMenu.NumberOfFloors && floorNumber > MainMenu.NumberOfFloors))
             {
-                targetPosition = initialPosition + new Vector3(0f, 0.2f, 0f);
+                targetPosition = initialPosition + new Vector3(0f, 0f, 0f);
             }
             
             else
@@ -137,9 +156,9 @@ namespace Elevator
             float elapsedTime = 0f;
             float waitTime = 0.05f;
             float floorDistance = Mathf.Abs(startingFloorNumber - floorNumber); // Distance between the target floor and the current floor 
-            Debug.Log($"FloorDistance {startingFloorNumber} - {floorNumber} = {floorDistance}");
+            //Debug.Log($"FloorDistance {startingFloorNumber} - {floorNumber} = {floorDistance}");
             float moveDuration = floorDistance * ElevatorMovementCoefficient;
-            Debug.Log($"MoveDuration {moveDuration} coef {ElevatorMovementCoefficient}");
+            //Debug.Log($"MoveDuration {moveDuration} coef {ElevatorMovementCoefficient}");
 
             // Move the elevator smoothly using Lerp
             while (elapsedTime < moveDuration)
@@ -164,10 +183,13 @@ namespace Elevator
             _elevator.Notify();
         } 
 
-        // private void Start()
+        // private void Awake()
         // {
-        //     _elevator = GetComponent<Elevator>();
-        //     _elevator.Attach(this);
+        //     _gameManager = FindObjectOfType<GameManager>().GetComponent<GameManager>();
+        //     if (!_gameManager)
+        //     {
+        //         Debug.LogError("GM is Null");
+        //     }
         // }
 
         private void Update()

@@ -13,6 +13,8 @@ namespace Elevator.Display
         public GameObject UpAndDownButtonsMenu;     // Reference to the buttons menu
         public GameObject FloorButtonsMenu;         // Reference to the buttons menu
 
+        [SerializeField]public int numberOfPersons;
+
         private Building _building;                 // Reference to the building script
         private FloorGO _floorGO;                   // Reference to the floor game object
         private ElevatorGO _elevatorGo;             // Reference to the elevator game object
@@ -90,6 +92,7 @@ namespace Elevator.Display
 
                     personInstance.text.text = person.GetPersonName();
                     personOffset += 2; // Increase offset for next person
+                    numberOfPersons += 1; // Count overall number of persons
                 }
 
                 floorHeight += 6; // Increase floor height for next floor

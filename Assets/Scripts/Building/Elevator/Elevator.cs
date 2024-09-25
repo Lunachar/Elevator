@@ -52,6 +52,7 @@ namespace Elevator
             CurrentFloor = 1;
             _observers = new List<IObserver>();
             ElevatorGo = elevatorGo;
+            Debug.LogError($"322: {ElevatorGo}");
             //_boot = boot;
         }
 

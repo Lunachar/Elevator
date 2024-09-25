@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
 using Elevator.Interfaces;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace Elevator
@@ -35,8 +33,8 @@ namespace Elevator
         {
             _elevator.Attach(this);
             _transformOfElevator = GameObject.Find("Elevator(Clone)").transform;
-            Debug.Log($"PCF:::::{_person.CurrentFloor}");
-            Debug.Log($"ECF:::::{_elevator.CurrentFloor}");
+            // Debug.Log($"PCF:::::{_person.CurrentFloor}");
+            // Debug.Log($"ECF:::::{_elevator.CurrentFloor}");
         }
 
 
@@ -57,37 +55,40 @@ namespace Elevator
             gameObject.transform.position = targetPosition;
             _isInElevator = true;
 
-            Debug.Log($"Person in Elevator");
+            // Debug.Log($"Person in Elevator");
             _elevator.ElevatorGo.AddPassengerToElevator(this);
             isGoing = false;
         }
 
         public IEnumerator MoveToFloor()
         {
-            isGoing = true;
-            float elapsedTime = 0f;
-            Vector3 initialPosition = gameObject.transform.position;
-            int currentFloor = _elevator.CurrentFloor;
-            GameObject floorGO = GameObject.Find("Floor " + currentFloor);
-            Debug.Log($"++++{floorGO.name}");
-            _floorGO = floorGO.GetComponent<FloorGO>();
+            if (this)
+            {
+                isGoing = true;
+                float elapsedTime = 0f;
+                Vector3 initialPosition = gameObject.transform.position;
+                int currentFloor = _elevator.CurrentFloor;
+                GameObject floorGO = GameObject.Find("Floor " + currentFloor);
+                // Debug.Log($"++++{floorGO.name}");
+                _floorGO = floorGO.GetComponent<FloorGO>();
             
 
-            Vector3 targetPosition = _floorGO.ExitPoint.position;
+                Vector3 targetPosition = _floorGO.ExitPoint.position;
                 
-            while (elapsedTime < moveDuration)
-            {
-                float t = elapsedTime / moveDuration;
-                var easeValue = personMovementCurve.Evaluate(t);
-                gameObject.transform.position = Vector3.Lerp(initialPosition, targetPosition, easeValue);
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-            gameObject.transform.position = targetPosition;
-            _isInElevator = true;
+                while (elapsedTime < moveDuration)
+                {
+                    float t = elapsedTime / moveDuration;
+                    var easeValue = personMovementCurve.Evaluate(t);
+                    gameObject.transform.position = Vector3.Lerp(initialPosition, targetPosition, easeValue);
+                    elapsedTime += Time.deltaTime;
+                    yield return null;
+                }
+                gameObject.transform.position = targetPosition;
+                _isInElevator = true;
 
-            Debug.Log($"Person on the floor");
-            isGoing = false;
+                Debug.Log($"Person on the floor");
+                isGoing = false;
+            }
         }
 
         public IEnumerator DissapearAfterDelay()
@@ -103,13 +104,20 @@ namespace Elevator
                 transform.localScale = new Vector3(scale, scale, scale);
                 yield return null;
             }
-            Destroy(gameObject);
+
+            if (this)
+            {
+                Destroy(gameObject);
+            }
         }
 
         public void ExitElevator()
         {
-            StartCoroutine(MoveToFloor());
-            StartCoroutine(DissapearAfterDelay());
+            if (this)
+            {
+                StartCoroutine(MoveToFloor());
+                StartCoroutine(DissapearAfterDelay());
+            }
         }
         public void SetCurrentFloor(int cfloor)
         {

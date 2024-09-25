@@ -45,18 +45,18 @@ namespace Elevator
         }
 
         // Components
-        private ConsoleDisplay _consoleDisplay; // For displaying information in the console
-        private UnityDisplay _unityDisplay; // For visualizing the elevator system in Unity
-        private Building _building; // Represents the building structure
-        private GameObject _stage; // Represents the main stage object
-        private MainMenu _mainMenu; // Represents the main menu
+        private ConsoleDisplay _consoleDisplay;     // For displaying information in the console
+        private UnityDisplay _unityDisplay;         // For visualizing the elevator system in Unity
+        private Building _building;                 // Represents the building structure
+        private GameObject _stage;                  // Represents the main stage object
+        private MainMenu _mainMenu;                 // Represents the main menu
         
-        private IElevator _elevator; // The elevator instance
-        private FloorFactory _floorFactory; // Factory for creating floors
-        private FloorList _floorList; // List of floors in the building
-        private PersonGO _personGo; // Represents the person game object
+        private IElevator _elevator;                // The elevator instance
+        private FloorFactory _floorFactory;         // Factory for creating floors
+        private FloorList _floorList;               // List of floors in the building
+        private PersonGO _personGo;                 // Represents the person game object
         
-        private DatabaseManager _databaseManager; // Manages the database
+        private DatabaseManager _databaseManager;   // Manages the database
         
         [Inject]
         public void Construct(Building building, ConsoleDisplay consoleDisplay, UnityDisplay unityDisplay, IElevator elevator, FloorFactory floorFactory, DatabaseManager databaseManager, FloorList floorList, PersonGO personGo, MainMenu mainMenu)

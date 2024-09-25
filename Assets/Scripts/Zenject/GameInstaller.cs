@@ -14,12 +14,14 @@ namespace Elevator
         [SerializeField] private UnityDisplay unityDisplayInstance;
         [SerializeField] private PersonGO personGo;
         [SerializeField] private MainMenu mainMenu;
+        [SerializeField] private GameManager gameManager;
         
         public override void InstallBindings()
         {
             Container.BindInstance(bootInstance).AsSingle();
             Container.BindInstance(unityDisplayInstance).AsSingle();
             Container.BindInstance(mainMenu).AsSingle();
+            Container.BindInstance(gameManager).AsSingle();
             
             // Container.Bind<MainMenu>().AsSingle();
             Container.Bind<Building>().AsSingle();
@@ -36,9 +38,6 @@ namespace Elevator
                 .AsSingle();
             Container.Bind<DatabaseManager>().AsSingle();
             Container.Bind<DB_Setup>().AsSingle();
-            
-            // var prefabInstaller = Container.Resolve<PrefabsInstaller>();
-            // prefabInstaller.SetBootInstance(bootInstance);
         }
 
         

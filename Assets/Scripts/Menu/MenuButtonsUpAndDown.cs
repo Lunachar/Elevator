@@ -41,7 +41,7 @@ namespace Elevator
             
             // Find references and set up button listeners
             _boot = FindObjectOfType<Boot>().GetComponent<Boot>();
-            _elevator = FindObjectOfType<Boot>().GetElevator() as Elevator;
+            _elevator = _boot.GetElevator() as Elevator;
             _stage = GameObject.Find("STAGE");
             
             Debug.LogError($"BOOL: {AnyPersonOnFloorMoving(_elevator.CurrentFloor)}");
@@ -116,7 +116,12 @@ namespace Elevator
                 if (!AnyPersonOnFloorMoving(_elevator.CurrentFloor) && !AnyPersonFromElevatorMoving())
                 {
                     // Check if the elevator is not moving and the target floor is different from the current floor
-                    if (!_isMoving && _elevator.CurrentFloor != floorNumber)
+                    if (!_isMoving && (floorNumber > MainMenu.NumberOfFloors || floorNumber < 1))
+                    {
+                        StartCoroutine(_elevator.ElevatorGo.ElevatorMove(floorNumber, _stage, ElevatorBoundCurve, _elevator));
+                        Debug.Log($"BOUNCE CURVE");
+                    }
+                    else if (!_isMoving && _elevator.CurrentFloor != floorNumber && floorNumber >= 1 && floorNumber <= MainMenu.NumberOfFloors)
                     {
                         StartCoroutine(_elevator.ElevatorGo.ElevatorMove(floorNumber, _stage, ElevatorMovementCurve, _elevator));
                         Debug.Log($"USUAL CURVE");
@@ -130,11 +135,6 @@ namespace Elevator
                     if (_boot == null)
                     {
                         Debug.Log("Boot is null");
-                    }
-                    if (!_isMoving && (floorNumber > _boot.NumberOfFloors() || floorNumber < 1))
-                    {
-                        StartCoroutine(_elevator.ElevatorGo.ElevatorMove(floorNumber, _stage, ElevatorBoundCurve, _elevator));
-                        Debug.Log($"BOUNCE CURVE");
                     }
                 }
                 else
