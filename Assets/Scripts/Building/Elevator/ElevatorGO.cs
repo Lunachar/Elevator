@@ -73,12 +73,13 @@ namespace Elevator
                     ExitElevator();
                     Debug.Log($"Passenger {passenger.personTargetFloor} has been unloaded");
                     _passengersInsideElevator.Remove(passenger);
-                    // if (_gameManager == null)
-                    // {
-                    //     Debug.Log("Game Manager is Null");
-                    //     break;
-                    // }
-                    _gameManager.PassengersCounter();
+                    if (_gameManager == null)
+                    {
+                        _gameManager = FindObjectOfType<GameManager>().GetComponent<GameManager>();
+                        Debug.Log("Game Manager is Null");
+                        //break;
+                    }
+                    _gameManager?.PassengersCounter();
 
                 }
             }

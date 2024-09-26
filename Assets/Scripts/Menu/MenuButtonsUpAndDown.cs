@@ -23,7 +23,7 @@ namespace Elevator
         private Boot _boot;                             // Reference to Boot.
         private Elevator _elevator;                     // Reference to Elevator.
         private GameObject _stage;                      // Reference to Stage (all floors in one parent game object).
-        //private bool _check;                          // Whether or not the elevator is moving.
+        //private bool _check;                          // Whether the elevator is moving.
         
         private DiContainer _diContainer;               // Reference to the container.
         private UnityDisplay _unityDisplay;             // Reference to the UnityDisplay.
@@ -31,7 +31,7 @@ namespace Elevator
         private PersonGO _personGo;                     // Reference to the PersonGO.
         private List<PersonGO> _people;                 // Reference to the List of PersonGO.
         
-        private bool _isMoving;                          // Whether or not the elevator is moving.
+        private bool _isMoving;                          // Whether the elevator is moving.
         
         
         private void Start()

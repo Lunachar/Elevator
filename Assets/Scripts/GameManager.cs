@@ -22,11 +22,12 @@ public class GameManager : MonoBehaviour
 
     public void PassengersCounter()
     {
-        // if (!_unityDisplay)
-        // {
-        //     _unityDisplay = FindObjectOfType<UnityDisplay>();
-        // }
-        Debug.LogError("HERE IN COUNT");
+        if (!_unityDisplay)
+        {
+            _unityDisplay = FindObjectOfType<UnityDisplay>();
+        }
+        Debug.LogError($"HERE IN COUNT {_unityDisplay.numberOfPersons}");
+        
         NumberOfPassengers = _unityDisplay.numberOfPersons;
         if (NumberOfPassengers > 0)
         {
