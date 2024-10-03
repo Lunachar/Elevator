@@ -11,8 +11,8 @@ namespace Elevator
     public class Boot : MonoBehaviour
     {
         // The only data input in the game
-        [SerializeField]private int _numberOfFloors; // Total number of floors in the building
-        [SerializeField]private int _elevatorCapacity; // Maximum capacity of the elevator
+        [SerializeField]private int _numberOfFloors;    // Total number of floors in the building
+        [SerializeField]private int _elevatorCapacity;  // Maximum capacity of the elevator
         [SerializeField]private int _maxPeoplePerFloor; // Maximum number of people per floor
 
         public int PNumberOfFloors

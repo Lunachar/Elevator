@@ -1,45 +1,100 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using Elevator.Display;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Zenject;
 
 public class GameManager : MonoBehaviour
 {
+    public event Action OnPassengersChanged;
+    public event Action OnMoveCounterChanged;
+    
     private UnityDisplay _unityDisplay;
     
-    private int NumberOfPassengers;
+    private int _numberOfPassengers;
 
-    [Inject]
-    public void Construct(UnityDisplay unityDisplay)
+    private int _moveCounter;
+
+    private bool _initialized;
+
+    private void Awake()
     {
-        _unityDisplay = unityDisplay;
+        DontDestroyOnLoad(gameObject);
     }
-    void Start()
+
+    private void Start()
     {
+        StartCoroutine(WaitForUnityDisplayInitialization());
+    }
+
+    private IEnumerator WaitForUnityDisplayInitialization()
+    {
+        while (_unityDisplay == null)
+        {
+            _unityDisplay = FindObjectOfType<UnityDisplay>();
+            yield return null;
+        }
+        
+        _numberOfPassengers = _unityDisplay.numberOfPersons;
+        Debug.LogError($"Number {_numberOfPassengers}");
+        _initialized = true;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        StartCoroutine(WaitForUnityDisplayInitialization());
     }
 
     public void PassengersCounter()
     {
-        if (!_unityDisplay)
+        if (!_initialized)
         {
-            _unityDisplay = FindObjectOfType<UnityDisplay>();
+            return;
         }
-        Debug.LogError($"HERE IN COUNT {_unityDisplay.numberOfPersons}");
         
-        NumberOfPassengers = _unityDisplay.numberOfPersons;
-        if (NumberOfPassengers > 0)
+        
+        if (_numberOfPassengers > 1)
         {
-            NumberOfPassengers -= 1;
-            _unityDisplay.numberOfPersons = NumberOfPassengers;
-            Debug.LogError($"Number of passengers: {_unityDisplay.numberOfPersons}");
+            _numberOfPassengers -= 1;
+            _unityDisplay.numberOfPersons = _numberOfPassengers;
+            Debug.LogError($"HERE IN COUNT {_unityDisplay.numberOfPersons}");
+            OnPassengersChanged?.Invoke();
         }
         else
         {
-            Debug.LogError("EndGame");
-            SceneManager.LoadScene("EndGame");
+            StartCoroutine(WaitForPerson());
         }
+    }
 
+    public IEnumerator WaitForPerson()
+    {
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene("EndGame");
+    }
+
+    public void MoveCounter()
+    {
+        _moveCounter += 1;
+        OnMoveCounterChanged?.Invoke();
+    }
+
+    public int GetPassengers()
+    {
+        return _numberOfPassengers;
+    }
+
+    public int GetMoveCounter()
+    {
+        return _moveCounter;
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

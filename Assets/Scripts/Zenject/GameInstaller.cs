@@ -21,7 +21,9 @@ namespace Elevator
             Container.BindInstance(bootInstance).AsSingle();
             Container.BindInstance(unityDisplayInstance).AsSingle();
             Container.BindInstance(mainMenu).AsSingle();
-            Container.BindInstance(gameManager).AsSingle();
+            //Container.BindInstance(gameManager).AsSingle();
+            Container.Bind<GameManager>().FromComponentInNewPrefab(gameManager).AsSingle().NonLazy();
+            
             
             // Container.Bind<MainMenu>().AsSingle();
             Container.Bind<Building>().AsSingle();

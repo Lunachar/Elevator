@@ -34,9 +34,12 @@ public class MainMenu : MonoBehaviour
 
     private void Update()
     {
-        PPFtext.text = maxPeoplePerFloorSlider.value.ToString();
-        NOFtext.text = numberOfFloorsSlider.value.ToString();
-        EPCtext.text = elevatorCapacitySlider.value.ToString();
+        if (SceneManager.GetActiveScene().name != "EndGame" )
+        {
+            PPFtext.text = maxPeoplePerFloorSlider.value.ToString();
+            NOFtext.text = numberOfFloorsSlider.value.ToString();
+            EPCtext.text = elevatorCapacitySlider.value.ToString();
+        }
     }
 
     public void StartGame()

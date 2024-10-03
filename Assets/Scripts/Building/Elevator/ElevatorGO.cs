@@ -14,7 +14,7 @@ namespace Elevator
         private Elevator _elevator;
 
         [SerializeField]private GameManager _gameManager;
-        //private int a = 1;
+        
         public bool Moving
         {
             get { return _elevator.IsMoving; }
@@ -29,7 +29,7 @@ namespace Elevator
             }
         }
         
-        private Boot _boot;                                  // Reference to Boot
+        //private Boot _boot;                                  // Reference to Boot
         private const float ElevatorMovementCoefficient = 1f; // Elevator movement coefficient
 
         private List<PersonGO> _passengersInsideElevator = new List<PersonGO>();
@@ -73,14 +73,14 @@ namespace Elevator
                     ExitElevator();
                     Debug.Log($"Passenger {passenger.personTargetFloor} has been unloaded");
                     _passengersInsideElevator.Remove(passenger);
+                    _gameManager = FindObjectOfType<GameManager>();
+                    
                     if (_gameManager == null)
                     {
-                        _gameManager = FindObjectOfType<GameManager>().GetComponent<GameManager>();
                         Debug.Log("Game Manager is Null");
                         //break;
                     }
                     _gameManager?.PassengersCounter();
-
                 }
             }
 
@@ -168,6 +168,7 @@ namespace Elevator
                 float easeValue = animCurve.Evaluate(t);
                 stage.transform.position = Vector3.LerpUnclamped(initialPosition, targetPosition, easeValue);
                 elapsedTime += Time.deltaTime;
+                _gameManager?.MoveCounter();
                 yield return null;
             }
 

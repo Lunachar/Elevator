@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Elevator.Interfaces;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace Elevator.Display
@@ -13,7 +11,9 @@ namespace Elevator.Display
         public GameObject UpAndDownButtonsMenu;     // Reference to the buttons menu
         public GameObject FloorButtonsMenu;         // Reference to the buttons menu
 
-        [SerializeField]public int numberOfPersons;
+        [SerializeField] public int numberOfPersons;
+        [SerializeField] private TMP_Text MovesIn;
+        [SerializeField] private TMP_Text PassengersLeft;
 
         private Building _building;                 // Reference to the building script
         private FloorGO _floorGO;                   // Reference to the floor game object
@@ -21,12 +21,13 @@ namespace Elevator.Display
         private PersonGO _personGo;                 // Reference to the person game object
         private EmptyObject _emptyObject;           // Reference to the empty object, used to be Stage, includes all the floors
         private DiContainer _container;             // Dependency injection container
+        private GameManager _gameManager;
 
 
         // Constructor for dependency injection
         [Inject]
         public void Construct(Building building, DiContainer container, FloorGO floorGo, ElevatorGO elevatorGo,
-            PersonGO personGo, EmptyObject emptyObject)
+            PersonGO personGo, EmptyObject emptyObject, GameManager gameManager)
         {
             _building = building;
             _container = container;
@@ -34,6 +35,7 @@ namespace Elevator.Display
             _elevatorGo = elevatorGo;
             _personGo = personGo;
             _emptyObject = emptyObject;
+            _gameManager = gameManager;
         }
 
         // Start is called before the first frame update
@@ -48,6 +50,17 @@ namespace Elevator.Display
             else
             {
                 Debug.LogError("Building reference is null in UnityDisplay.");
+            }
+
+            if (_gameManager != null)
+            {
+                _gameManager.OnPassengersChanged += UpdatePassengersLeft;
+                _gameManager.OnMoveCounterChanged += UpdateMovesIn;
+                Debug.LogError("Successfully subscribed");
+            }
+            else
+            {
+                Debug.LogError("GM reference is null");
             }
         }
 
@@ -113,6 +126,21 @@ namespace Elevator.Display
         public void UpdateElevatorStatus(IObserverble observerble)
         {
             Debug.LogWarning("UpdateElevatorStatus method is not implemented.");
+        }
+
+        private void UpdatePassengersLeft()
+        {
+            Debug.LogError("UpdatePassengers called");
+            if (PassengersLeft != null)
+            {
+                PassengersLeft.text = _gameManager.GetPassengers().ToString();
+                Debug.LogError($"Passengers updated: {_gameManager.GetPassengers()}");
+            }
+        }
+
+        private void UpdateMovesIn()
+        {
+            MovesIn.text = _gameManager.GetMoveCounter().ToString();
         }
     }
 }
